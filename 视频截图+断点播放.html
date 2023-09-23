@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    video {
+        width: 100%;
+        aspect-ratio: 16/9;
+    }
+
+    button {
+        border-radius: 10px;
+        padding: 10px;
+    }
+    button:hover {
+        background-color: rgb(34, 80, 198);
+        color: rgb(255, 238, 5);
+    }
+
+    button::after {
+        border-radius: 10px;
+        padding: 10px;
+        background-color: white;
+    }
+    input::first-line{
+        background-color: aqua;
+        color: blue;
+    }
+    input[type="button"]{
+        background-color: aqua;
+        color: blue;
+    }
+</style>
+
+<body>
+    <video id="video" controls autoplay>
+        <source src="img/296022950-1-208.mp4" type="video/mp4">
+        浏览器不支持播放
+    </video>
+    <button onclick="getCurrentTime()">截取视频</button>
+    <button onclick="breakpointPlayback()">断点播放</button>
+    <!-- 选择视频 -->
+    <input id='file' type="file" title="" name="file">
+    <img id="img" src="" alt="">
+</body>
+<script>
+    var video = document.getElementById('video');
+    var img = document.getElementById('img');
+    var files = document.getElementById('file');
+
+    var videoW = video.offsetWidth, videoH = video.offsetHeight;
+    files.addEventListener('change', e => {
+        if (!e.target.files || !e.target.files[0]) {
+            alert('未选择文件！');
+            return;
+        }
+        let file = e.target.files[0];
+        console.log(file);
+        let videosource = video.firstElementChild;
+        videosource.setAttribute('src', URL.createObjectURL(file));
+        // 视频重新加载
+        video.load();
+    });
+
+    // video.addEventListener('canplay' , function () {
+    //     videoW = this.videoWidth;
+    //     videoH = this.videoHeight;
+    // })
+    function getCurrentTime() {
+        // let src = video.getAttribute('src');
+        //  let videodem = document.createElement('video');
+        //  videodem.setAttribute('src' , src);
+        //  videodem.setAttribute('height' , videoH);
+        //  videodem.setAttribute('width' , videoW);
+        //  videodem.setAttribute('crossOrigin' , 'anonymous');
+        //  videodem.currentTime = video.currentTime || 1;
+
+        let canvas = document.createElement('canvas'),
+            width = videoW,
+            height = videoH;
+        canvas.width = width;
+        canvas.height = height;
+        canvas.getContext('2d').drawImage(video, 0, 0, width, height);
+        img.setAttribute('src', canvas.toDataURL('image/jpeg', 0.8));
+
+    }
+
+
+    // 获取参数
+    function init() {
+        const url = new URL(window.location.href);
+        const params = new URLSearchParams(url.search);
+
+        const currentTime = params.get('currentTime');
+        const method = params.get('method');
+
+        console.log('currentTime:', currentTime);
+        console.log('method:', method);
+
+        video.currentTime = currentTime;
+    }
+    init();
+    // 断点播放
+    function breakpointPlayback() {
+        if (video.paused) {
+            video.play();
+        }
+        video.addEventListener('timeupdate', function () {
+            currentTime = video.currentTime;
+            window.open(window.location.hash + '?currentTime=' + currentTime)
+        })
+    }
+
+
+
+</script>
+
+</html>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>流星雨</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    body {
+        background: #333;
+        overflow: hidden;
+    }
+
+    .main {
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        background: url('img/照片\ \(73\).jpg');
+        background-size: cover;
+        background-position: center bottom;
+    }
+
+    #canvas {
+
+        filter: drop-shadow(0 0 1px white);
+    }
+</style>
+
+<body>
+    <div class="main">
+        <canvas id="canvas"></canvas>
+    </div>
+
+</body>
+<script>
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    function planA() {
+        var meteors = [] //流星数组
+        var allstar = 40 //流星数量
+        function init() { //根据流星数量的设置填充数组
+            for (var i = 0; i < allstar; i++) {
+                newmeteor()
+            }
+        }
+        function newmeteor() {
+            meteors.push({
+                lines: [{ //用于存放流星尾巴，初始位置随机
+                    x: parseInt(Math.random() * canvas.width),
+                    y: parseInt(Math.random() * canvas.height * 0.7),
+                }],
+                life: parseInt(Math.random() * 100) + 100, //流星寿命，范围为100-200
+                age: 0 //当前年龄值
+            })
+        }
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            for (var i = 0; i < meteors.length; i++) { //遍历流星数组
+                meteor = meteors[i] //当前流星
+                lines = meteor.lines //当前流星的尾巴
+                for (var j = 0; j < lines.length; j++) { //遍历尾巴数组
+                    ctx.fillStyle = "rgba(255,255,255," + j / lines.length + ")" //根据当前的位置设定透明度
+                    ctx.fillRect(lines[j].x, lines[j].y, 1, 1) //画出尾巴的光点
+                }
+                ctx.fillStyle = "yellow" //改变填充颜色
+                var star = lines[lines.length - 1] //尾巴数组的最后元素，也就是流星的头部
+                ctx.fillRect(star.x, star.y, 2, 2) //画出稍大的流星头部
+                if (meteor.age <= meteor.life / 2) { //判断当前年龄是否少于寿命的一半
+                    lines.push({ //如过少于寿命的一半，则增加尾巴的长度
+                        x: star.x + 1, //用于设置流星的飞行方向
+                        y: star.y + 0.3
+                    })
+                }
+                else { //如果年龄已经超过寿命的一半，则从第一个元素开始删除
+                    lines.shift()
+                }
+                meteor.age++ //增加流星的年龄
+                if (meteor.age >= meteor.life) { //如果年龄达到了寿命的设置，则删除此流星，同时在随机位置增加一颗流星
+                    meteors.splice(i, 1)
+                    newmeteor()
+                }
+
+            }
+        }
+        init()
+        setInterval(draw, 1)
+    }
+
+    function planB() {
+
+        // 定义流星类  
+        class Meteor {
+            constructor() {
+                this.x = Math.random() * canvas.width; // 初始位置（x坐标）  
+                this.y = Math.random() * canvas.height; // 初始位置（y坐标）  
+                this.speed = Math.random() * 2 + 1; // 速度（像素/帧）  
+                this.size = Math.random() * 2 + 1; // 大小（像素）  
+            }
+
+            // 更新流星的位置  
+            update() {
+                this.y += this.speed;
+                if (this.y > canvas.height) {
+                    this.x = Math.random() * canvas.width;
+                    this.y = 0;
+                    this.speed = Math.random() * 2 + 1;
+                    this.size = Math.random() * 2 + 1;
+                }
+            }
+
+            // 绘制流星  
+            draw() {
+                ctx.fillStyle = 'white';
+                ctx.strokeStyle = 'yellow';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+
+        // 创建流星数组  
+        const meteors = [];
+        for (let i = 0; i < 50; i++) {
+            meteors.push(new Meteor());
+        }
+
+        // 动画循环函数  
+        function animate() {
+            requestAnimationFrame(animate); // 持续调用animate函数，形成动画效果  
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空画布  
+            meteors.forEach(meteor => {
+                meteor.update(); // 更新流星位置  
+                meteor.draw(); // 绘制流星  
+            });
+        }
+        animate(); // 调用动画循环函数开始动画效果
+    }
+    function planC() {
+
+        // 定义流星属性  
+        const meteors = [];
+        const numMeteors = 50;
+        const meteorSpeed = 2;
+
+        // 初始化流星  
+        for (let i = 0; i < numMeteors; i++) {
+            const meteor = {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 3 + 1,
+                speedX: Math.random() * meteorSpeed - meteorSpeed / 2,
+                speedY: Math.random() * meteorSpeed - meteorSpeed / 2,
+            };
+            meteors.push(meteor);
+        }
+
+        // 绘制流星雨效果  
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffffff';
+
+            for (let i = 0; i < meteors.length; i++) {
+                const meteor = meteors[i];
+                ctx.beginPath();
+                ctx.arc(meteor.x, meteor.y, meteor.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 更新流星位置  
+                meteor.x += meteor.speedX;
+                meteor.y += meteor.speedY;
+
+                // 如果流星飞出画布，重新初始化流星位置  
+                if (meteor.x < 0 || meteor.x > canvas.width || meteor.y < 0 || meteor.y > canvas.height) {
+                    meteor.x = Math.random() * canvas.width;
+                    meteor.y = Math.random() * canvas.height;
+                    meteor.size = Math.random() * 3 + 1;
+                    meteor.speedX = Math.random() * meteorSpeed - meteorSpeed / 2;
+                    meteor.speedY = Math.random() * meteorSpeed - meteorSpeed / 2;
+                }
+            }
+        }
+
+        // 循环调用draw函数实现动画效果  
+        setInterval(draw, 1000 / 60); // 每秒60帧  
+    }
+    function planD() {
+
+        // 定义流星对象  
+        function Meteor(x, y, speed) {
+            this.x = x;
+            this.y = y;
+            this.speed = speed;
+            this.size = Math.random() * 4 + 1; // 流星大小，1-5像素  
+            this.alpha = Math.random(); // 透明度，0-1  
+        }
+
+        Meteor.prototype.draw = function () {
+            ctx.globalAlpha = this.alpha; // 设置透明度  
+            ctx.fillStyle = 'white'; // 设置填充颜色  
+            ctx.strokeStyle = 'white'; // 设置线条颜色  
+            ctx.lineWidth = 2; // 线条宽度  
+            ctx.beginPath(); // 开始路径  
+            ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI); // 画一个圆，形成流星主体  
+            ctx.closePath(); // 结束路径  
+            ctx.fill(); // 填充颜色  
+            ctx.stroke(); // 画出线条  
+
+            // 如果流星已经飞出屏幕，则重新设定其位置和速度，形成循环  
+            if (this.x > canvas.width || this.y > canvas.height) {
+                this.x = 0;
+                this.y = 0;
+                this.speed = Math.random() * 1 + 0.5; // 速度，0.5-1.5像素/帧  
+            }
+        };
+
+        // 创建流星数组并初始化  
+        var meteors = [];
+        for (var i = 0; i < 100; i++) { // 创建100颗流星  
+            meteors[i] = new Meteor(0, 0, Math.random() * 1 + 0.5);
+        }
+
+        // 主循环，每一帧更新并绘制流星  
+        function animate() {
+            requestAnimationFrame(animate); // 持续调用animate函数，形成动画效果  
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空画布  
+            for (var i = 0; i < meteors.length; i++) {
+                meteors[i].x += meteors[i].speed; // 更新流星位置  
+                meteors[i].y += meteors[i].speed;
+                meteors[i].draw(); // 绘制流星  
+            }
+        }
+        animate(); // 开始动画循环
+    }
+    function planE() {
+        /*流星雨,最终版*/
+        let starList = []
+        //用class语法创建流星雨对象
+        class Star {
+            constructor(X, Y, x, y, color) {
+                this.X = X
+                this.Y = Y
+                this.x = x
+                this.y = y
+                this.color = color
+            }
+        }
+
+        //生产随机颜色
+        function getColor() {
+            let str = '0123456789ABCDEF'
+            let color = '#'
+            for (let i = 0; i < 6; i++) {
+                color += `${str[Math.ceil(Math.random() * 15)]}`
+            }
+            return color
+        }
+
+        //循环创建流星数组
+        function creatStarList() {
+            for (let i = 0; i < 30; i++) {
+                let X = 10 + i * (Math.random() * (60 - 20) + 20)
+                let Y = Math.random() * (60 - 20) + 20
+                let x = 1
+                let y = Math.random() * (4 - 1) + 1
+                let color = getColor()
+                let star = new Star(X, Y, x, y, color)
+                starList.push(star)
+            }
+        }
+
+
+        console.log(starList, '流星数组')
+        function draw() {
+            //  ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空画布
+
+
+            ctx.beginPath()
+
+            ctx.fillStyle = 'rgba(0,0,0,0.1)';
+            ctx.fillRect(0, 0, window.innerWidth, window.innerHeight)
+
+            ctx.closePath()
+
+            starList.forEach(item => {
+
+                ctx.beginPath()
+                ctx.arc(item.X, item.Y, 1, Math.PI * 2, 0, true)
+                ctx.fillStyle = item.color;
+                ctx.fill()
+
+                ctx.closePath()
+
+                item.X += item.x
+                item.Y += item.y
+
+            })
+
+            requestAnimationFrame(draw)
+
+        }
+
+        creatStarList()
+        draw()
+        setInterval(() => {
+            creatStarList()
+        }, 1500)
+
+    }
+
+
+
+    planA();
+</script>
+
+</html>

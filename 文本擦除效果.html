@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        /* background: black; */
+    }
+
+    .container {
+        width: 100%;
+
+        font-family: '黑体', Courier, monospace;
+        /* background-color: rgb(0, 0, 0); */
+        font-size: 20px;
+        line-height: 2;
+        position: relative;
+    }
+
+    p {
+        margin: 0;
+        text-align: center;
+       /* background-color: aqua; */
+        /* color: white; */
+    }
+
+    .eraser {
+        position: relative;
+        top: -720px;
+        left: 0; 
+    }
+
+    .text {
+        --p: 10%;
+        background: linear-gradient(to right, transparent var(--p), rgb(255, 255, 255) calc(var(--p) + 100px));
+        color: transparent;
+        animation: erase 4s linear forwards;
+    }
+
+    /* 自定义CSS属性 */
+    @property --p {
+        syntax: '<percentage>';
+        /* 默认值 */
+        initial-value: 0%;
+        /* 是否继承 */
+        inherits: false;
+    }
+    @keyframes erase {
+        to{
+            --p:100%;
+        }
+    }
+</style>
+
+<body>
+    <div class="container">
+        <p>
+            说走就走的旅行<br>
+            
+            和家人的聚会<br>
+            
+            大汗淋漓的球赛<br>
+            
+            无所顾忌的拥抱<br>
+            
+            一次热闹的派对<br>
+            
+            一场坐满观众的录像
+            <br>
+            身心疲惫的飞行
+            <br>
+            甚至毫无障碍的呼吸
+            <br><br>
+            
+            
+            那些过去不值得一提的事
+            <br>
+            现在想想
+            <br>
+            每一个字都觉得幸福
+            <br><br>
+            
+            生活是拥有
+            <br>
+            生活更是失去
+            <br>
+            有时失去更能让我们明白
+            <br>
+            生活里的那些不值一提
+            <br>
+            是一切努力的目的
+        </p>
+        <p class="eraser">
+            <span class="text">
+                说走就走的旅行<br>
+            
+            和家人的聚会<br>
+            
+            大汗淋漓的球赛<br>
+            
+            无所顾忌的拥抱<br>
+            
+            一次热闹的派对<br>
+            
+            一场坐满观众的录像
+            <br>
+            身心疲惫的飞行
+            <br>
+            甚至毫无障碍的呼吸
+            <br><br>
+            
+            
+            那些过去不值得一提的事
+            <br>
+            现在想想
+            <br>
+            每一个字都觉得幸福
+            <br><br>
+            
+            生活是拥有
+            <br>
+            生活更是失去
+            <br>
+            有时失去更能让我们明白
+            <br>
+            生活里的那些不值一提
+            <br>
+            是一切努力的目的
+            </span>
+        </p>
+    </div>
+</body>
+<script>
+
+</script>
+
+</html>

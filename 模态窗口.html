@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .modal {
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+    }
+
+    .modal-bg {
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: none;
+    }
+</style>
+
+<body>
+<button onclick="openModal()">打开窗口</button>
+    <div id="myModal-bg" class="modal-bg"></div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span style="background-color: #888;" class="close">×</span>
+            <p style="background-color: blanchedalmond;">这里是模态窗口的内容</p>
+        </div>
+    </div>
+    
+
+</body>
+
+<script>
+    // 获取模态窗口和背景部分
+    var modal = document.getElementById("myModal");
+    var modalBg = document.getElementById("myModal-bg");
+    // 获取关闭按钮
+    var closeBtn = document.getElementsByClassName("close")[0];
+    // 打开模态窗口
+    function openModal() {
+        modal.style.display = "block";
+        modalBg.style.display = "block";
+    }
+    // 关闭模态窗口
+    function closeModal() {
+        modal.style.display = "none";
+        modalBg.style.display = "none";
+    }
+    // 点击背景部分也可以关闭模态窗口
+    modalBg.onclick = function () {
+        closeModal();
+    };
+    // 点击关闭按钮关闭模态窗口
+    closeBtn.onclick = function () {
+        closeModal();
+    };
+
+</script>
+
+</html>
