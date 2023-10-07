@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS - 拟态键盘</title>
+    <style>
+        html,
+        body,
+        div {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+        }
+
+        /* 容器 */
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000033;
+        }
+
+        /* 键盘 */
+        .keyboard {
+            display: flex;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px 1px #666 inset, 0px 0px 5px 1px #fff;
+            background-color: #E4E6EA;
+            padding: 30px;
+        }
+
+        /* 按键 */
+        .key {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: #E4E9EC;
+            box-shadow: 3px 3px 8px 2px #999, -3px -3px 8px 2px #fff;
+            color: #666;
+            font-size: 13px;
+            cursor: pointer;
+            transition: .1s;
+        }
+
+        .key:hover,
+        .active {
+            box-shadow: 0 0 3px 1px #999;
+        }
+
+        /* 空键 */
+        .key-empty {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* 气泡键 */
+        .key-bubble {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 20px;
+            background-color: #009999;
+            color: #fff;
+            font-size: 13px;
+            position: absolute;
+            transition: all 2s ease-in-out;
+            overflow: hidden;
+            box-shadow: 0 0 10px 1px #000, 0 0 10px 1px #fff inset;
+        }
+
+        /* 区域一 */
+        .area-1 {
+            width: 740px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-content: baseline;
+        }
+
+        /* 区域二 */
+        .area-2 {
+            width: 140px;
+            margin-left: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .area-2-item {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* 区域三 */
+        .area-3 {
+            width: 190px;
+            margin-left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .area-3-light {
+            display: flex;
+            gap: 10px;
+        }
+
+        .area-3-light-item {
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            color: #999;
+        }
+
+        .area-3-number {
+            display: flex;
+            gap: 10px;
+        }
+
+        .area-3-number-item {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        #inputPanel {
+            position: fixed;
+            top: auto;
+
+            margin: 10px 10%;
+            padding: 10px;
+            z-index: 22;
+            width: 80%;
+            height: auto;
+            background-color: #E4E6EA;
+            border-radius: 10px;
+
+            /* 这两个在技术上是一样的, 为了兼容了浏览器两个都加上 */
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+
+            -ms-word-break: break-all;
+            /* 这个的使用在web-kit中有些危险，他可能会阶段所有东西 */
+            word-break: break-all;
+            /* Instead use this non-standard one: */
+            word-break: break-word;
+
+            /* 如果浏览器支持的话增加一个连接符(Blink不支持) */
+            -ms-hyphens: auto;
+            -moz-hyphens: auto;
+            -webkit-hyphens: auto;
+            hyphens: auto;
+
+            font-size: 50px;
+            font-weight: 800;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="inputPanel"></div>
+    <div class="container">
+        <div class="keyboard">
+            <!-- 区域一 -->
+            <div class="area-1">
+                <!-- line1 -->
+                <div class="key" id="k27" style="background-color: orange; color: #f5f5f5;">Esc</div>
+                <div class="key" id="k112" style="margin-left: 50px;">F1</div>
+                <div class="key" id="k113">F2</div>
+                <div class="key" id="k114">F3</div>
+                <div class="key" id="k115" style="margin-left: 25px;">F4</div>
+                <div class="key" id="k116">F5</div>
+                <div class="key" id="k117">F6</div>
+                <div class="key" id="k118">F7</div>
+                <div class="key" id="k119" style="margin-left: 25px;">F8</div>
+                <div class="key" id="k120">F9</div>
+                <div class="key" id="k121">F10</div>
+                <div class="key" id="k122">F11</div>
+                <div class="key" id="k123">F12</div>
+                <!-- line2 -->
+                <div class="key" id="k192"><span>~</span><span>`</span></div>
+                <div class="key" id="k49"><span>!</span><span>1</span></div>
+                <div class="key" id="k50"><span>@</span><span>2</span></div>
+                <div class="key" id="k51"><span>#</span><span>3</span></div>
+                <div class="key" id="k52"><span>$</span><span>4</span></div>
+                <div class="key" id="k53"><span>%</span><span>5</span></div>
+                <div class="key" id="k54"><span>^</span><span>6</span></div>
+                <div class="key" id="k55"><span>&</span><span>7</span></div>
+                <div class="key" id="k56"><span>*</span><span>8</span></div>
+                <div class="key" id="k57"><span>(</span><span>9</span></div>
+                <div class="key" id="k48"><span>)</span><span>0</span></div>
+                <div class="key" id="k189"><span>-</span><span>-</span></div>
+                <div class="key" id="k187"><span>=</span><span>+</span></div>
+                <div class="key" id="k8" style="width: 90px;">←</div>
+                <!-- line3 -->
+                <div class="key" id="k9" style="width: 70px;">Tab</div>
+                <div class="key" id="k81">Q</div>
+                <div class="key" id="k87">W</div>
+                <div class="key" id="k69">E</div>
+                <div class="key" id="k82">R</div>
+                <div class="key" id="k84">T</div>
+                <div class="key" id="k89">Y</div>
+                <div class="key" id="k85">U</div>
+                <div class="key" id="k73">I</div>
+                <div class="key" id="k79">O</div>
+                <div class="key" id="k80">P</div>
+                <div class="key" id="k219"><span>[</span><span>{</span></div>
+                <div class="key" id="k221"><span>]</span><span>}</span></div>
+                <div class="key" id="k220" style="width: 60px;"><span>\</span><span>|</span></div>
+                <!-- line4 -->
+                <div class="key" id="k20" style="width: 85px;">Caps Lock</div>
+                <div class="key" id="k65">A</div>
+                <div class="key" id="k83">S</div>
+                <div class="key" id="k68">D</div>
+                <div class="key" id="k70">F</div>
+                <div class="key" id="k71">G</div>
+                <div class="key" id="k72">H</div>
+                <div class="key" id="k74">J</div>
+                <div class="key" id="k75">K</div>
+                <div class="key" id="k76">L</div>
+                <div class="key" id="k186"><span>;</span><span>:</span></div>
+                <div class="key" id="k222"><span>'</span><span>"</span></div>
+                <div class="key" id="k13" style="width: 95px;">Enter</div>
+                <!-- line5 -->
+                <div class="key" id="k16_left" style="width: 115px;">Shift</div>
+                <div class="key" id="k90">Z</div>
+                <div class="key" id="k88">X</div>
+                <div class="key" id="k67">C</div>
+                <div class="key" id="k86">V</div>
+                <div class="key" id="k66">B</div>
+                <div class="key" id="k78">N</div>
+                <div class="key" id="k77">M</div>
+                <div class="key" id="k188"><span>,</span><span>
+                        <</span>
+                </div>
+                <div class="key" id="k190"><span>.</span><span>></span></div>
+                <div class="key" id="k191"><span>/</span><span>?</span></div>
+                <div class="key" id="k16_right" style="width: 115px;">Shift</div>
+                <!-- line6 -->
+                <div class="key" id="k17_left" style="width: 50px;">Ctrl</div>
+                <div class="key" id="k91" style="width: 50px;">Win</div>
+                <div class="key" id="k18_left" style="width: 50px;">Alt</div>
+                <div class="key" id="k32" style="width: 320px;"></div>
+                <div class="key" id="k18_right" style="width: 50px;">Alt</div>
+                <div class="key" id="k93" style="width: 110px;">▤</div>
+                <div class="key" id="k17_right" style="width: 50px;">Ctrl</div>
+            </div>
+
+            <!-- 区域二 -->
+            <div class="area-2">
+                <!-- 上 -->
+                <div class="area-2-item">
+                    <div class="key" id="k44">Print</div>
+                    <div class="key" id="k145">Lock</div>
+                    <div class="key" id="k19">Pause</div>
+                    <div class="key" id="k45">Insert</div>
+                    <div class="key" id="k36">Home</div>
+                    <div class="key" id="k33">UP</div>
+                    <div class="key" id="k46">Del</div>
+                    <div class="key" id="k35">End</div>
+                    <div class="key" id="k34">Down</div>
+                </div>
+                <!-- 下 -->
+                <div class="area-2-item">
+                    <div class="key-empty"></div>
+                    <div class="key" id="k38">↑</div>
+                    <div class="key-empty"></div>
+                    <div class="key" id="k37">←</div>
+                    <div class="key" id="k40">↓</div>
+                    <div class="key" id="k39">→</div>
+                </div>
+            </div>
+
+            <!-- 区域三 -->
+            <div class="area-3">
+                <!-- 指示灯 -->
+                <div class="area-3-light">
+                    <div class="area-3-light-item" style="color: orangered;">◘</div>
+                    <div class="area-3-light-item">◘</div>
+                    <div class="area-3-light-item">◘</div>
+                    <div class="area-3-light-item">◘</div>
+                </div>
+                <!-- 数字小键盘 -->
+                <div class="area-3-number">
+                    <!-- 左 -->
+                    <div class="area-3-number-item">
+                        <div class="key" id="k144">Num</div>
+                        <div class="key" id="k111">/</div>
+                        <div class="key" id="k106">*</div>
+                        <div class="key" id="k103">7</div>
+                        <div class="key" id="k104">8</div>
+                        <div class="key" id="k105">9</div>
+                        <div class="key" id="k100">4</div>
+                        <div class="key" id="k101">5</div>
+                        <div class="key" id="k102">6</div>
+                        <div class="key" id="k97">1</div>
+                        <div class="key" id="k98">2</div>
+                        <div class="key" id="k99">3</div>
+                        <div class="key" id="k96" style="width: 90px;">0</div>
+                        <div class="key" id="k110">.</div>
+                    </div>
+                    <!-- 右 -->
+                    <div class="area-3-number-item">
+                        <div class="key" id="k109">-</div>
+                        <div class="key" id="k107" style="height: 90px;">+</div>
+                        <div class="key" id="k13_num" style="height: 90px;">Enter</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // 获取按键选择器
+        const getSelector = () => {
+            let selector = ''
+            // 区分 shift alt control 左右键
+            if ([16, 17, 18].includes(event.keyCode)) {
+                selector = `#k${event.keyCode}${event.code.endsWith('Left') ? '_left' : '_right'}`
+            } else {
+                // 区分 enter 键
+                if (event.keyCode === 13 && event.code === 'NumpadEnter') {
+                    selector = `#k${event.keyCode}_num` // 数字小键盘中的 enter 键
+                } else {
+                    selector = `#k${event.keyCode}`
+                }
+            }
+            return selector
+        }
+
+        // 按下
+        document.addEventListener('keydown', (event) => {
+            console.log({ event })
+            // 删除键
+            if (event.key === 'Backspace') {
+                let l = document.getElementById('inputPanel').innerHTML + '';
+                let list = [];
+
+                list = l.split(' ');
+                list.pop();
+                list.pop();
+                console.log(list)
+                document.getElementById('inputPanel').innerHTML = list.join(' ') + ' ';
+            } else if (event.code === 'Space') {
+
+                let ll = document.getElementById('inputPanel').innerHTML;
+                document.getElementById('inputPanel').innerHTML += '&nbsp&nbsp';
+            }
+            else {
+                let ll = document.getElementById('inputPanel').innerHTML;
+
+                document.getElementById('inputPanel').innerHTML = ll + event.key + ' ';
+            }
+            const key = document.querySelector(getSelector())
+            key && key.classList.add('active')
+        })
+
+        // 松开
+        document.addEventListener('keyup', (event) => {
+            const key = document.querySelector(getSelector())
+            if (key) {
+                key.classList.remove('active')
+
+                // 坐标点
+                const position = key.getBoundingClientRect()
+                const x = position.left
+                const y = position.top
+
+                // 宽 高
+                const w = key.offsetWidth
+                const h = key.offsetHeight
+
+                // 创建元素并设置样式
+                const div = document.createElement('div')
+                div.className = 'key-bubble'
+                div.innerText = event.key.toLocaleUpperCase()
+                div.style.cssText = `
+                    left: ${x}px;
+                    top: ${y}px;
+                    opacity: .6;
+                    width: ${w}px;
+                    height: ${h}px;
+                `
+                document.body.append(div)
+
+                // 100 毫秒后改变位置
+                setTimeout(() => {
+                    div.style.cssText = `
+                        left: ${x}px;
+                        top: ${y - 500}px;
+                        opacity: 0;
+                        width: ${w}px;
+                        height: ${h}px;
+                    `
+                    setTimeout(() => div.remove(), 2050)
+                }, 100)
+            }
+        })
+    </script>
+</body>
+<script>
+    // 事件------------------------------------------
+    function eventName(e) {
+        console.log(e.type); 
+         // 创建元素并设置样式
+         const div = document.createElement('div')
+                div.className = 'key-bubble'
+                div.innerText = e.type
+                div.style.cssText = `
+                    left: 50%;
+                    top: 50%;
+                    opacity: .6;
+                    width: 30%;
+                    height: 100px;
+                    font-size:30px;
+                `
+                document.body.append(div)
+
+                // 100 毫秒后改变位置
+                setTimeout(() => {
+                    div.style.cssText = `
+                        left: 50%;
+                        top: 40%;
+                        opacity: 0;
+                        width: 50px;
+                        height: 50px;
+                    `
+                    setTimeout(() => div.remove(), 5050)
+                }, 500)
+
+    };
+    // 鼠标事件
+    // 鼠标左键按下
+    // document.addEventListener('mousedown',eventName);
+    // 鼠标左键抬起
+    // document.addEventListener('mouseup',eventName);
+    // 点击事件
+    // document.addEventListener('click',eventName);
+    // 双击
+    // document.addEventListener('dblclick',eventName);
+// 鼠标移到元素上，经过盒子触发
+    // document.addEventListener('mouseover',eventName);
+// 鼠标移动
+    // document.addEventListener('mousemove',eventName);
+// 鼠标移出
+    // document.addEventListener('mouseout',eventName);
+    // 鼠标离开页面
+    // document.addEventListener('mouseleave',eventName);
+// 鼠标移到元素上，只经过自身盒子触发
+// var area = document.querySelector('.area-1');
+//     area.addEventListener('mouseenter',eventName);
+// 右键点击事件
+//    document.addEventListener('contextmenu',eventName);
+
+    // 键盘事件
+
+    // document.addEventListener('keydown',function (event) {
+    //    eventName(event);
+    //    alert(event.key);
+    // });
+    
+    // document.addEventListener('keyup',eventName);
+    // UI事件
+    // document.addEventListener('load',function (event) {
+    //     eventName(event);
+    //     alert(2);
+    // });
+    // 滚动
+    // document.addEventListener('scroll',eventName);
+
+
+    // 表单事件
+    function form(params) {
+        // 创建一个新的表单元素  
+let form = document.createElement('form');  
+  form.id = 'form';
+  // 创建一个新的标签元素  
+  let label = document.createElement('label');  
+  label.textContent = '请输入你的名字：';  
+    
+  // 创建一个新的输入元素  
+  let input = document.createElement('input');  
+  input.type = 'text';  
+  input.name = 'name';  
+    
+  // 创建一个新的提交按钮  
+  let submitButton = document.createElement('button');  
+  submitButton.type = 'submit';  
+  submitButton.textContent = '提交';  
+
+  let submitButton1 = document.createElement('button');  
+  submitButton1.type = 'reset';  
+  submitButton1.textContent = '重置';  
+    
+  // 将标签和输入元素添加到表单中  
+  form.appendChild(label);  
+  form.appendChild(input);  
+    
+  // 将提交按钮添加到表单中  
+  form.appendChild(submitButton);  
+    form.appendChild(submitButton1);  
+  // 将表单添加到body中  
+   document.body.appendChild(form);
+
+  
+    }
+     form();
+    let form1 = document.getElementById('form');
+   
+    // form1.addEventListener('change',eventName);
+
+    // form1.addEventListener('input',eventName);
+let input1 = document.getElementsByTagName('input')[0];
+
+    // input1.addEventListener('focus',eventName);
+    input1.addEventListener('blur',eventName);
+    // form1.addEventListener('select',eventName);
+    // form1.addEventListener('submit',eventName);
+    form1.addEventListener('reset',eventName);
+    // function eventName(e) {
+    //     alert(e.type)
+    // }
+    // 手指事件
+    // 手指触摸屏幕
+    // document.addEventListener('touchstart',eventName);
+
+    // document.addEventListener('touchend',eventName);
+    // document.addEventListener('touchmove',eventName);
+    // 触摸被打断
+   
+    // setTimeout(() => {
+    //      alert()
+    // }, 2000);
+    // document.addEventListener('touchcancel',function (e) {
+
+    //   eventName(e);  
+    // });
+
+</script>
+
+</html>

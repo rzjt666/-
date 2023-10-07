@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #0B1012;
+        color: darkgray;
+        background-size: cover;
+    }
+
+    header {
+        position: fixed;
+        width: 100%;
+        top: 0px;
+        left: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
+        height: 100px;
+    }
+
+    header ul {
+        display: flex;
+        list-style: none;
+        gap: 50px;
+    }
+
+  @property --rotate {  
+    syntax: "<angle>";  
+    initial-value: 0deg;  
+    inherits: false;  
+}  
+  
+@keyframes rotateLight {  
+    from {  
+        --rotate: 0.15turn;  
+    }  
+  
+    to {  
+        --rotate: -0.25turn;  
+    }  
+}  
+  
+.light {  
+    background-image: conic-gradient(from 
+    var(--rotate) at 29% 10%,
+     #0B1012 40%,
+     #fcfcfcbe 55%,
+     #0d0d0eda 60%);  
+    font-size: 120px;  
+    background-clip: text;  
+    -webkit-background-clip: text;  
+    color: transparent;  
+  
+    animation: rotateLight 2s ease-in-out infinite alternate;  
+}
+</style>
+
+<body>
+    <header>
+        <div>Lundev</div>
+        <ul>
+            <li>Home</li>
+            <li>Contact</li>
+            <li>Info</li>
+            <li>Category</li>
+        </ul>
+    </header>
+
+    <div class="light">Light</div>
+</body>
+<script>
+
+
+</script>
+
+</html>

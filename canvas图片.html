@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+
+    }
+
+    canvas {
+        border: 11px solid black;
+        width: 100%;
+        height: 100%;
+        background-color: blanchedalmond;
+    }
+</style>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <canvas id="mycanvas"></canvas>
+    <!-- <img src="/image/合影.jpg" alt=""> -->
+
+</body>
+<script>
+    const canvas1 = document.getElementById("mycanvas");
+    const ctx1 = canvas1.getContext("2d");
+    const img = new Image();
+    img.src = "/image/照片 (6).jpg";
+    // 较大的值将增加绘制的图像的清晰度，但也会增加渲染时间。
+   // canvas1.width = 1000; // 设置canvas宽度为1000像素  
+   // canvas1.height = 1000; // 设置canvas高度为1000像素
+    // 计算缩放比例，保持长宽比  
+    var width = img.width;
+    var height = img.height;
+    var maxWidth = canvas1.width = width;
+    var maxHeight = canvas1.height = height;
+    var scale = Math.min(maxWidth / width, maxHeight / height);
+
+    // 设置绘图的位置，使得图片在canvas中居中  
+    var translateX = (maxWidth - width * scale) / 2;
+    var translateY = (maxHeight - height * scale) / 2;
+
+    // 绘制图片  
+
+    img.onload = function () {
+        ctx1.drawImage(img, translateX, translateY, width * scale, height * scale);
+    };
+
+
+
+</script>
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // 创建一个粒子数组  
+    var particles = [];
+
+    // 初始化粒子数组  
+    function initParticles(n) {
+        for (var i = 0; i < n; i++) {
+            particles[i] = {
+                x: Math.random() * canvas.width,  // 随机初始位置  
+                y: Math.random() * canvas.height,
+                dx: (Math.random() - 0.5) * 10,  // 随机初始速度  
+                dy: (Math.random() - 0.5) * 10,
+                size: Math.random() * 5 + 1,      // 随机大小  
+            };
+        }
+    }
+
+    // 更新粒子位置  
+    function updateParticles() {
+        for (var i = 0; i < particles.length; i++) {
+            particles[i].x += particles[i].dx;
+            particles[i].y += particles[i].dy;
+            particles[i].dx *= 0.98;  // 空气阻力，让粒子速度逐渐变慢  
+            particles[i].dy *= 0.98;
+        }
+    }
+
+    // 绘制粒子  
+    function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height); // 清除画布上的内容  
+        ctx.fillStyle = "#0095DD"; // 设置填充颜色  
+        for (var i = 0; i < particles.length; i++) {
+            ctx.beginPath();
+            ctx.arc(particles[i].x, particles[i].y, particles[i].size, 0, Math.PI * 2, false); // 绘制圆形粒子  
+            ctx.fill();
+            ctx.closePath();
+        }
+    }
+
+    // 主循环：更新和绘制粒子  
+    function loop() {
+        updateParticles();
+        drawParticles();
+        requestAnimationFrame(loop);  // 持续循环，形成动画效果  
+    }
+
+    // 初始化粒子数组，并开始循环动画效果  
+    initParticles(100); // 创建100个粒子  
+    loop(); // 开始循环动画效果 
+
+    // function Particle(x, y) {
+    //     this.x = x;
+    //     this.y = y;
+    //     this.speedX = Math.random() * 5 - 2.5; // 随机水平速度，-2.5到2.5之间  
+    //     this.speedY = Math.random() * 5 - 2.5; // 随机垂直速度，-2.5到2.5之间  
+    // }
+
+    // const particles = [];
+
+    // function drawParticles() {
+    //     ctx.clearRect(0, 0, canvas.width, canvas.height); // 清除画布上的内容  
+    //     particles.forEach(particle => {
+    //         ctx.beginPath();
+    //         ctx.arc(particle.x, particle.y, 2, 0, Math.PI * 2, false); // 绘制圆形粒子  
+    //         ctx.fillStyle = "rgba(173,216,230, 0.8)"; // 设置填充色和透明度  
+    //         ctx.fill();
+    //         ctx.closePath();
+    //     });
+    // }
+    // function updateParticles() {
+    //     particles.forEach(particle => {
+    //         particle.x += particle.speedX;
+    //         particle.y += particle.speedY;
+    //         // 如果粒子超出画布边界，则重新生成粒子  
+    //         if (particle.x < 0 || particle.x > canvas.width || particle.y < 0 || particle.y > canvas.height) {
+    //             particle.x = Math.random() * canvas.width;
+    //             particle.y = Math.random() * canvas.height;
+    //             particle.speedX = Math.random() * 5 - 2.5;
+    //             particle.speedY = Math.random() * 5 - 2.5;
+    //         }
+    //     });
+    // }
+    const mouse = { x: 0, y: 0 }; // 鼠标坐标对象  
+    canvas.addEventListener("mousemove", (event) => {
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
+    });
+    function createParticlesAroundMouse() {
+        for (let i = 0; i < 10; i++) { // 生成10个粒子  
+            const angle = Math.random() * 2 * Math.PI; // 随机角度  
+            const distance = Math.random() * 100 + 50; // 随机距离，50到150之间  
+            const x = mouse.x + distance * Math.cos(angle); // 计算粒子x坐标  
+            const y = mouse.y + distance * Math.sin(angle); // 计算粒子y坐标  
+            particles.push(new Particle(x, y)); // 创建粒子对象并添加到数组中  
+        }
+    }
+</script>
+<!-- <script>
+    const canvas = document.getElementById('canvas');  
+const ctx = canvas.getContext('2d');  
+  
+// 粒子类  
+class Particle {  
+  constructor(x, y) {  
+    this.x = x;  
+    this.y = y;  
+    this.size = Math.random() * 5 + 1; // 粒子大小（1-6）  
+    this.speedX = Math.random() * 3 - 1.5; // 水平速度（-1.5-1.5）  
+    this.speedY = Math.random() * 3 - 1.5; // 垂直速度（-1.5-1.5）  
+  }  
+  
+  update() {  
+    this.x += this.speedX;  
+    this.y += this.speedY;  
+  }  
+  
+  draw() {  
+    ctx.fillStyle = 'rgba(173,216,230, 0.8)'; // 粒子颜色（可自定义）  
+    ctx.strokeStyle = 'rgba(173,216,230, 0.8)'; // 粒子边框颜色（可自定义）  
+    ctx.lineWidth = 2; // 粒子边框宽度（可自定义）  
+    ctx.beginPath();  
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);  
+    ctx.closePath();  
+    ctx.fill();  
+    ctx.stroke();  
+  }  
+}  
+  
+const particles = []; // 存储所有粒子的数组  
+let mouseX, mouseY; // 鼠标坐标  
+let particlesInMouseRange = 0; // 鼠标范围内粒子的数量  
+const maxParticlesInMouseRange = 50; // 鼠标范围内最大粒子数量  
+const mouseRange = 100; // 鼠标范围（以像素为单位，可自定义）  
+  
+// 添加粒子到数组中  
+function addParticle(x, y) {  
+  const particle = new Particle(x, y);  
+  particles.push(particle);  
+}  
+  
+// 在鼠标位置添加粒子（当鼠标点击或移动时）  
+function addParticlesAtMousePosition() {  
+  if (particlesInMouseRange < maxParticlesInMouseRange) {  
+    for (let i = 0; i < 5; i++) { // 在鼠标位置添加5个粒子（可自定义）  
+      const x = mouseX + Math.random() * mouseRange - mouseRange / 2; // 在鼠标x轴范围内随机生成粒子x坐标  
+      const y = mouseY + Math.random() * mouseRange - mouseRange / 2; // 在鼠标y轴范围内随机生成粒子y坐标  
+      addParticle(x, y); // 添加粒子到数组中  
+    }  
+    particlesInMouseRange++; // 增加鼠标范围内粒子的数量  
+  } else {  
+    console.log('Max particles in mouse range reached'); // 达到最大粒子数量时的提示信息（可自定义）  
+  }  
+}  
+  
+// 更新和绘制所有粒子  
+function updateAndDrawParticles() {  
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // 清空画布（可自定义）  
+  for (let i = 0; i < particles.length; i++) {  
+    particles[i].update(); // 更新粒子位置  
+    particles[i].draw(); // 绘制粒子  
+  }  
+}
+</script> -->
+
+</html>

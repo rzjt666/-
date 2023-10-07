@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .parallax-slide {
+        height: 50em;
+    }
+
+
+    .parallax-clip {
+        height: 100%;
+    }
+
+    .fixed-parellax {
+        /* background-color: antiquewhite; */
+        background-attachment: fixed;
+        height: inherit;
+        /* position: relative; */
+        /* background-image: url(img/button.png); */
+        /* height: 200px; 根据你的需求来设置   */
+        line-height: 200px;
+        /* 确保这个值与height相同 */
+        font-size: 100px;
+        color: #fff;
+        text-align: center;
+
+        /* z-index: 0; */
+        /* 添加描边 */
+        text-shadow: 1px 1px 5px black;
+
+    }
+
+    .content {
+        z-index: 2;
+        padding: 19px 0;
+        /* position:relative; */
+        top: -590px;
+        /* align-content: center;
+        justify-items: center; */
+        display: flex;
+        float: left;
+        border-radius: 20px;
+        /* height: 50%; */
+        width: 100%;
+        background-color: linear-gradient(to right bottom,
+                rgba(138, 233, 22, 0.6),
+                rgba(255, 255, 255, 0.3),
+                rgba(12, 171, 240, 0.2),
+
+            );
+        backdrop-filter: blur(3px);
+        border-top: 1px solid rgba(255, 255, 255, 0.6);
+        border-left: 1px solid rgba(238, 233, 225, 0.6);
+
+
+    }
+
+    .word {
+        /* background-color:transparent; */
+        font-size: 25px;
+        width: 100%;
+        color: #000000;
+        position: relative;
+        text-align: center;
+        letter-spacing: 3px;
+        line-height: 1.5em;
+        font-weight: 700;
+        font-family: '楷体', Courier, monospace;
+        /* 添加描边 */
+        text-shadow: 1px 1px 5px white;
+        animation: grow 1s steps(44) 1s normal both,
+            blink 500ms steps(44) infinite normal;
+    }
+
+    /* 选中文本背景色 */
+    .word::selection {
+        background-color: yellow;
+    }
+
+    .animation {}
+
+    @keyframes grow {
+        from {
+            opacity: 0;
+            height: 0px;
+            color: transparent;
+        }
+
+        to {
+            height: 100%;
+        }
+    }
+
+    @keyframes blink {
+        from {
+            border-right-color: #eee;
+        }
+
+        to {
+            border-right-color: transparent;
+        }
+    }
+</style>
+
+<body>
+    <div class="parallax-slide">
+        <div class="parallax-clip">
+            <div class="fixed-parellax" style="background-image: url(img/button.png);">HOME
+                <div class="content">
+                    <a class="word">
+                        人生如一场修行<br>
+                        得意时，“一日看尽长安花”<br>
+                        艰难时，“潦倒新停浊酒杯”<br>
+                        但生命的跋涉不能回头<br>
+                        哪怕“畏途巉岩不可攀”<br>
+                        也要“会当凌绝顶”<br>
+                        哪怕“无人会，登临意”<br>
+                        也要“猛志固常在”<br>
+                        从经典中汲取“九万里风鹏正举”的力量<br>
+                        历练“也无风雨也无晴”的豁然<br>
+                        “待到重阳日”，我们“还来就菊花”</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="parallax-slide">
+
+        <div class="parallax-clip">
+            <div class="fixed-parellax" style="background-image: url(img/☺︎︎.jpg)">About <div class="content">
+                    <a class="word">
+                        你见过什么样的中国<br>
+                        是960万平方公里的辽阔<br>
+                        还是300万平方公里的澎湃<br>
+                        是四季轮转的天地<br>
+                        还是冰与火演奏的乐章<br><br>
+
+                        像鸟儿一样<br>
+                        离开地面，冲上云霄<br>
+                        结果超乎你的想象<br><br>
+
+                        前往平时无法到达的地方 <br>
+                        看见专属于高空的奇观 <br>
+                        俯瞰这片朝夕相处的大地 <br>
+                        再熟悉的景象<br>
+                        也变了一副模样</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+
+    <div class="parallax-slide">
+
+        <div class="parallax-clip">
+            <div class="fixed-parellax" style="background-image: url(img/下载\ \(11\).jpg)"> CONTACT<div class="content">
+                    <a class="word">
+                        千秋功过，皆在青史<br>
+                        每一个历史人物都如同镜鉴<br>
+                        壮游山河，青年立志<br>
+                        在舜和禹的身上看到美德<br>
+                        在越王勾践身上学到隐忍<br>
+                        在孔子故里追慕先贤<br>
+                        在汨罗江畔感受屈原的家国情怀<br>
+                        在乌江之畔记取项羽的英勇<br>
+                        也反思他的败亡<br>
+                        山河是一部史书，壮游如同读史<br>
+                        究天人之际，通古今之变，成一家之言</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    </div>
+</body>
+<script>
+    // 监听复制
+    document.addEventListener('copy', (e) => {
+        prompt('你在复制' + JSON.stringify(e));
+        console.log(e);
+        // 阻止复制
+        e.preventDefault();
+        // 设置复制内容
+        e.clipboardData.setData('text/plain', '不能复制!!!!!!!!!!!!');
+        // 获取并打印复制的内容  
+        // console.log('复制的内容:', event.clipboardData.getData('text/plain'));  
+        navigator.clipboard.readText()
+            // 访问剪贴板
+            .then(function (text) {
+                console.log('复制的内容:', text);
+            })
+            .catch(function (err) {
+                console.error('无法读取剪贴板', err);
+            });
+    })
+
+</script>
+
+</html>

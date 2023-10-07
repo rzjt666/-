@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 自动引入最新版本 -->
+    <script src="https://unpkg.com/pinyin-pro"></script>
+    <script src="https://unpkg.com/jquery@3.7.1/dist/jquery.js"></script>
+    <title>拼音+国庆</title>
+</head>
+<style>
+    body {
+        background-color: rgba(255, 4, 4, 0.726);
+    }
+
+    .word {
+        font-size: large;
+        position: relative;
+        display:inline-block;
+        line-height: 38px;
+        transition:  0.3s ease-in-out;
+    }
+  .word:hover {
+        font-size: 30px;
+        
+    }
+    .word::selection {
+        background-color: rgb(239, 145, 23);
+    }
+    .word::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #6de224;
+        transition: width 0.5s ease;
+    }
+
+    .word:hover::after {
+        width: 100%;
+    }
+
+    .py {
+        text-align: left;
+        word-spacing: -1px;
+        color: #d5ff0393;
+
+    }
+</style>
+
+<body>
+    <div class="py"></div>
+    <div class="word" style="display: none;">
+        如果信念有颜色，那一定是中国红。国庆节快乐！
+        目光所致皆为华夏，五星闪耀皆为信仰。
+        共铸鼎盛山河，谱写时代荣光。
+        愿以吾辈之青春，护卫这锦绣山河。
+        我泱泱华夏，一撇一捺皆是脊梁；我神州大地，一丝一念皆是未来；
+        我浩浩九州，一文一墨皆是骄阳。
+        心中有国，万里山河皆为家。
+
+        <br><br>
+        锦绣中国，盛世华诞。
+
+        凡日月所照，江河所流，皆为国土。
+        最喜欢的颜色 是中国红
+        四季耕耘厚土，不负祖国河山。
+        神舟万里庆华诞，家和国盛万事兴。
+        山河永在，生生不息，爱我中华。
+        有幸生于红旗之下，成长于春风之中。此生不悔入华夏，来生还投种花家。
+        那一抹中国红 今天愈发夺人心魄
+        最耀眼的星星 是五星红旗的光芒
+        如果奇迹有颜色，那一定是中国红。国庆节快乐！
+        国是每个家的港湾，家是每个人的归属
+        
+        江山犹在，国民安泰。国庆节快乐！
+        祖国华诞天地欢，九州同贺笑开颜。祝伟大的祖国更加繁荣昌盛。
+    </div>
+    <!-- <canvas id="canvas"></canvas> -->
+</body>
+<script>
+    var col = new Array("red", "brown");
+    var ticker = 0;
+    var step = 0;
+    function drawBackground() {
+        var g = document.getElementById("background").getContext("2d");
+        var grd = g.createLinearGradient(-560 + ticker, 0, 1400 + ticker, 0);
+        for (var i = 0; i < 10; i++)
+            grd.addColorStop(i / 10, col[(i + step) % col.length]);
+        ticker = ticker + 10;
+        if (ticker >= 196) {
+            ticker = 0;
+            step++;
+        }
+        g.fillStyle = grd;
+        g.fillRect(0, 0, 1600, 700);
+    }
+
+    function preperation() {
+        setInterval('drawBackground()', 100);
+    }
+</script>
+<style type="text/css">
+    #myCanvas {
+        z-index: -1;
+        position: fixed;
+        left: 0px;
+        top: -5px;
+        opacity: 0.5;
+
+    }
+
+    #background {
+        z-index: 0;
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        display: none;
+    }
+</style>
+</head>
+
+<body onLoad="preperation()">
+    <canvas id="myCanvas" width="900" height="600">
+        Your browser does not support the HTML5 canvas tag.
+    </canvas>
+    <canvas id="background" width="1600" height="700"></canvas>
+    <script>
+        var x = new Array(0, 12, 54, 18, 28, 0, -28, -18, -54, -12, 0);    //五角星样品坐标xx数组
+        var y = new Array(-53, -17, -17, 1, 45, 19, 45, 1, -17, -17, -53); //五角星样品坐标y数组
+
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d"); //获得画笔
+        //样品数组x轴坐标 a , 和y轴坐标 b
+        //指定位置[locationX,locationY]
+        //真实五角星的大小，与样品五角星尺寸之比 f
+        //五角星画完后，旋转的角度 rotation
+        function star(a, b, locationX, locationY, f, rotation) {
+            ctx.save();//记录画图（画笔）的初始环境
+            ctx.translate(locationX, locationY);
+            ctx.rotate(rotation * Math.PI / 180.0);
+            ctx.beginPath();
+            ctx.moveTo(Math.round(a[0] * f), Math.round(b[0] * f));
+            for (var i = 1; i < a.length; i++)
+                ctx.lineTo(Math.round(a[i] * f), Math.round(b[i] * f));
+            ctx.closePath();
+            ctx.fillStyle = "yellow";
+            ctx.fill();
+            ctx.restore();//还原画图（画笔）的初始环境
+        }
+        star(x, y, 165, 165, 1.4, 0);//画大五角星
+        star(x, y, 301, 65, 0.5, 30);//画小五角星
+        star(x, y, 362, 126, 0.5, -30);//画小五角星
+        star(x, y, 359, 216, 0.5, 0);//画小五角星
+        star(x, y, 301, 273, 0.5, 30);//画小五角星
+    </script>
+    <script>
+        var { pinyin } = pinyinPro;
+        var words = document.getElementsByClassName('word');
+        var pys = document.getElementsByClassName('py');
+
+        // document.body.innerHTML += pinyin('汉语拼音'); 
+        var lines = words[0].innerHTML.split('\n');  // 按行分割文本  
+        console.log(lines.length);  // 输出行数
+
+        for (let i = 0; i < lines.length; i++) {
+            let newWord = document.createElement('div');
+            let newPy = document.createElement('div');
+            let empty = document.createElement('div');
+            newWord.classList.add("word");
+            newPy.classList.add("py");
+            
+            newWord.innerHTML = lines[i];
+            newPy.innerHTML = pinyin(lines[i]);
+            // if ((lines[i]).indexOf(i)!==-1) {
+            //     console.log(lines[i]+'是数字');
+            //     document.body.appendChild(newWord);
+            // }else if ((lines[i]).charCodeAt(i) >= 65 && (lines[i]).charCodeAt(i)<= 90 || (lines[i]).charCodeAt(i)>=97 && (lines[i]).charCodeAt(i)<=122) {
+            //     console.log(lines[i]+'是字母');
+            //     document.body.appendChild(newWord);
+            // }
+            //  else {
+            //     document.body.appendChild(newPy);
+            //     document.body.appendChild(newWord);
+            // }
+            var reg = /[\u4E00-\u9FA5]/g;  // 匹配汉字的正则表达式  
+            for (let j = 0; j < lines[i].length; j++) {
+                let w = lines[i][j];
+                if (reg.test(w)) {
+                    //  console.log(lines[i][j]+'是中文');
+                    document.body.appendChild(newPy);
+                    document.body.appendChild(newWord);
+                } else {
+                    document.body.appendChild(empty);
+                    document.body.appendChild(newWord);
+                }
+            }
+        }
+    // console.log( $('.py')[1]);
+    // for (let i = 0; i < words.length; i++) {
+    //     word = words[i];
+    //     pys[i].innerHTML = pinyin(word.innerHTML);
+    // }
+    // window.addEventListener('resize', function (params) {
+    //     var lines = words[0].innerHTML.split('\n');  // 按行分割文本
+    //     console.log(lines.length);  // 输出行数
+    // })
+    </script>
+
+</html>

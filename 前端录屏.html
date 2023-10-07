@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+
+    button{
+        padding: 50px;
+        font-size: 80px;
+    }
+    button:active{
+        background-color: blue;
+    }
+</style>
+<body>
+    <button onclick="start()">
+        开始录屏
+    </button>
+</body>
+<script>
+    function start(params) {
+        navigator.mediaDevices.getDisplayMedia({video : true , audio : true})
+        .then(function (stream){
+            const recordedChunks = [] , options = {mineType : 'video/webm; codecs = vp9'},
+            mediaRecorder = new MediaRecorder(stream , options);
+
+            mediaRecorder.ondataavailable = handleDataAvailable;
+            mediaRecorder.start();
+
+            mediaRecorder.addEventListener('error' , (event) => {
+                console.error('错误:${event.error.name}');
+            });
+
+            function handleDataAvailable(event) {
+                if (event.data.size > 0) {
+                    recordedChunks.push(event.data);
+                    download();
+                }
+            };
+            function download() {
+                const blob = new Blob(recordedChunks , {
+                    type:"video/webm"
+                });
+                const url = URL.createObjectURL(blob) , a = document.createElement('a') ,
+                video = document.createElement('video');
+               
+                a.style.display = 'none';
+                a.href = url;
+                video.src = url;
+                a.download = '录屏.webm'; 
+
+                document.body.appendChild(a);
+                document.body.appendChild(video);
+
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a.remove();
+
+            }
+        }).catch(function (error) {
+            console.error("获取屏幕媒体流失败：",error);
+        });
+    }
+</script>
+</html>

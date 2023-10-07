@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+
+    }
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        overflow-x: hidden;
+    }
+    section{
+        display: flex;
+        /* position: relative; */
+        font-size: 8vw;
+        min-height: 100vh;
+        justify-content: center;
+        align-items: center;
+
+    }
+    section h2 {
+
+    }
+    .container{
+        position: relative;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        width: 80%;
+        grid-gap: 30px;
+        top: -200px;
+    }
+    .container .box {
+        position: relative;
+        top: 50vh;
+        width: 200px;
+        height: 200px;
+        transition: 0.6s;
+        background-color: aqua;
+        border-radius: 20px;
+    }
+    .container .box:nth-child(3n+1){
+        transform: translate(-400px,0px) scale(0);
+    }
+    .container .box:nth-child(3n+2){
+        transform: translate(0px , 400px) scale(0);
+    }
+    .container .box:nth-child(3n+3){
+        transform: translate(400px,0px) scale(0);
+    }
+    .container .box.active{
+        transform: translate(0px,0px) scale(1);
+    }
+</style>
+<body>
+    <section>
+        <h2>滚动展示</h2>
+    </section>
+    <div class="container"></div>
+</body>
+<script>
+    for (let i = 1; i <= 46; i++) {
+        let box = document.createElement('div');
+        box.classList.add('box');
+       document.querySelector('.container').appendChild(box);   
+        
+    }
+
+    function randomColor() {
+        let chars = '1234567890abcdef';
+        let colorLength = 6;
+        let color = "";
+
+        for (let i = 1; i <= colorLength; i++) {
+            let randomColors = Math.floor(Math.random() * chars.length);
+            color += chars.substring(randomColors,randomColors+1);
+            
+        }
+         return "#"+color;
+       
+    }
+    let boxes = document.querySelectorAll('.box');
+    function addColor() {
+        boxes.forEach(e => {
+            console.group('colors');
+            console.log(randomColor());
+            console.groupEnd();
+            e.style.background = randomColor();
+        })
+    }
+    addColor();
+    function scrollTrigger() {
+        
+        boxes.forEach(boxx => {
+            // console.log(boxx.offsetTop+'      '+window.screenY);
+            if (boxx.offsetTop < window.scrollY) {
+                boxx.classList.add('active');
+            }else{
+                 boxx.classList.remove('active')
+            }
+        })
+    }
+    window.addEventListener('scroll' , scrollTrigger)
+</script>
+</html>
