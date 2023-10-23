@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .check {
+        width: 100%;
+        aspect-ratio: 4/3;
+        background: url(img/照片\ \(73\).jpg) no-repeat;
+        background-size: contain;
+
+    }
+
+    .check-content {
+        width: 50px;
+        height: 50px;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid #fff;
+        position: absolute;
+        top: 150px;
+        left: 380px;
+
+    }
+
+    .check-block {
+        width: 50px;
+        height: 50px;
+        border: 1px solid #fff;
+        background-image: inherit;
+        background-size: inherit;
+        background-repeat: inherit;
+        background-position: -280px -100px;
+        position: absolute;
+        top: 150px;
+        left: 10px;
+    }
+
+    .drag {
+
+        width: 100%;
+        height: 50px;
+        background-color: aquamarine;
+        margin-top: 10px;
+        position: relative;
+    }
+
+    .drag-block {
+        width: 50px;
+        height: 50px;
+        background-color: yellowgreen;
+        z-index: 10;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .drag-tips {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        height: 100%;
+        margin: 0 auto;
+    }
+</style>
+
+<body>
+    <div class="check">
+        <div class="check-content"></div>
+        <div class="check-block"></div>
+    </div>
+    <div class="drag">
+        <div class="drag-block"></div>
+        <div class="drag-tips" onselectstart="return false"><span >拖动验证</span></div>
+
+    </div>
+</body>
+<script>
+     // 禁止调试 
+     // 禁止调试 不断debugger，打开控制台就无法正常运行
+     (() => {
+        function block(params) {
+            if (window.outerHeight - window.innerHeight > 200 || window.outerWidth - window.innerWidth > 200) {
+                document.body.innerHTML += '检测到非法调试，已阻止';
+                alert('检测到非法调试，已阻止');
+                window.location.href = 'about:blank'; // 刷新页面
+            }
+            setInterval(() => {
+                (function () {
+                    return false;
+                }
+                ['constructor']('debugger')
+                ['call']()
+                )
+                
+            }, 50);
+        }
+        try {
+            block();
+        } catch (error) {
+            console.log(error);
+        }
+    })();
+    //阻止打开控制台 禁止F12
+    window.onkeydown = window.onkeyup = window.onkeypress = function (event) {
+        var e = event || window.event; // 获取事件对象     
+        if (e.keyCode == 123 ) {
+         console.log('禁止打开控制台'); // 阻止F12
+            e.preventDefault();
+            return false;
+        }
+    }
+    // 禁止右键
+    document.querySelector('.drag-tips').addEventListener('contextmenu', function (e) {
+        e.preventDefault();
+    })
+    // 禁止选中
+    document.body.addEventListener('selectstart', function(e) {
+        e.preventDefault();
+    })
+    // 禁止复制
+    document.body.addEventListener('copy', function(e) {
+        e.preventDefault();
+    })
+    // 禁止粘贴
+    document.body.addEventListener('paste', function(e) {
+        e.preventDefault();
+    }
+    )
+    // 禁止拖拽
+    document.body.addEventListener('dragstart', function(e) {
+        e.preventDefault();
+    })
+    // 禁止拖拽
+    document.body.addEventListener('dragover', function(e) {
+        e.preventDefault();
+    })
+    // 禁止拖拽
+    document.body.addEventListener('drop', function(e) {
+        e.preventDefault();
+    })
+
+   
+    
+    function random(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+    let x = random(0, 525), y = random(10, 300);
+    let checkContent = document.querySelector(".check-content");
+    let checkBlock = document.querySelector(".check-block");
+
+    checkContent.style.cssText = `left:${x}px ; top:${y}px`;
+    checkBlock.style.cssText = `background-position: ${x}px -${y}px;top:${y}px`;
+
+    let animating = false;
+    let startX = 0;
+    const dragBlock = document.querySelector(".drag-block");
+    dragBlock.addEventListener('mousedown', (e) => {
+        animating = true;
+        startX = e.pageX;
+    })
+    dragBlock.addEventListener('mouseup', (e) => {
+        animating = false;
+
+    })
+
+
+    let offsetX = 0;
+    const drag = document.querySelector(".drag");
+    drag.addEventListener('mousemove', (e) => {
+        if (!animating) { return }
+        offsetX = e.pageX - startX;
+        if (offsetX < 0 || offsetX > 550) {
+            return
+        }
+        dragBlock.style.transform = `translateX(${offsetX}px)`;
+        checkBlock.style.left = `${offsetX}px`;
+    })
+    document.addEventListener('mouseup', (e) => {
+        animating = false;
+        if (offsetX >= x - 2 && offsetX <= x + 2) {
+            alert('成功');
+        } else {
+            dragBlock.style.transform = `translateX(0px)`;
+            checkBlock.style.left = `0px`;
+        }
+
+
+    })
+</script>
+
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #a1c6cb ;
+        padding-top: 100px;
+    }
+
+    .img-container {
+        width: 350px;
+        height: 350px;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .img-item {
+        box-shadow: inset 0 0 0 1px #fff;
+        transition: 0.5s;
+        border: #ff7300 1px solid;
+        background: url(img/《魔女宅急便》11.jpg);
+       /* background-attachment: fixed; */
+        
+
+        
+        position: relative;
+    }
+
+    .img-item:nth-child(3n + 1) {
+        background-position-x: 0;
+        left: -20px;background-size: 300% 300%;
+    }
+
+    .img-item:nth-child(3n + 2) {
+        background-position-x: -100%;background-size: 300% 300%;
+        left: 0px;
+    }
+
+    .img-item:nth-child(3n) {
+        background-position-x: -200%;background-size: 300% 300%;
+        left: 20px;
+    }
+
+    .img-item:nth-child(n + 7) {
+        background-position-y: -200%;
+        top: 20px;
+    }
+
+    .img-item:nth-child(-n + 6) {
+        background-position-y: -100%;
+        top: 0px;
+    }
+.img-item:nth-child(-n + 3) {
+        background-position-y: 0;
+        top: -20px;
+    }
+    .img-container:hover .img-item {
+        left: 0;
+        top: 0;
+        box-shadow: inset 0 0 0 0px #fff;
+        border: #a1c6cb00;
+    }
+
+    .img-item:hover {
+        /* 鼠标悬停时，阴影变大 */
+        /* box-shadow: inset 0 0 10px 10px #f4d77985; */
+        /* 鼠标悬停时，图片变大 */
+        transform: scale(1.1);
+        /* 鼠标悬停时，图片变暗 */
+        opacity: 0.6;
+    }
+</style>
+
+<body>
+    <div class="img-container">
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+        <div class="img-item"></div>
+    </div>
+</body>
+<script>
+
+</script>
+
+</html>

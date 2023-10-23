@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手风琴</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        height: 110vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(#54ab56 0%, #3ab4d2f6 100%);
+    }
+
+    .container {
+        width: 100%;
+        height: 80%;
+
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .item {
+        position: relative;
+        width: 80px;
+        height: 400px;
+        margin: 10px;
+        cursor: pointer;
+        border-radius: 50px;
+        /* background: #fff; */
+        background-size: cover;
+        background-position: center;
+        transition: 0.5s cubic-bezier(0.01, 0.01, 0.22, 1);
+        /* display: flex; */
+        /* justify-content: center; */
+        /* align-items: center; */
+        overflow: hidden;
+    }
+
+    .item.active {
+      
+        flex: 1;
+        margin: 0;
+        border-radius: 50px; 
+    }
+
+    .item.active .shadow {
+
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.514), rgb(255, 255, 255) 0.053);
+
+    }
+
+    .item.active .content {
+        bottom: 20px;
+        left: 20px;
+
+    }
+
+    .item.active .text {
+
+        background: linear-gradient(rgba(235, 222, 222, 0), rgba(130, 166, 220, 0.523));
+
+    }
+
+    .text {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 30px;
+
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+        color: #fff;
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: 1px;
+    }
+
+    .item.active .content .text .tit {
+        font-size: 60px;
+        font-weight: 800;
+        letter-spacing: 12px;
+        color: #28ea3f;
+        text-shadow: rgb(223, 80, 40) 0.05em 0.05em 3px;
+        margin-top: -200px;
+        margin-bottom: 20px;
+        transition: all 0.5s;
+    }
+
+    .item.active .content .text .sub {
+        font-size: 30px;
+        font-family: '楷体';
+        text-shadow: rgb(223, 40, 156) 0.05em 0.05em 3px;
+        text-align: center;
+        letter-spacing: 1px;
+        color: #000000;
+        margin: 0 0 50px 50px;
+        background-color: #f7e0e788;
+        padding: 10px;
+        box-shadow: #fbfbfbba 0.1em 0.2em 8px;
+        border-radius: 50px;
+        transition: all 0.5s;
+    } .item:not(.item.active) .content .text .tit {
+       
+        font-weight: 800;
+        letter-spacing: 12px;
+        text-shadow: black 0.05em 0.05em 3px;
+    }
+.item:not(.item.active) .content .text .sub {
+       opacity: 0.3;
+       font-size: small;
+       display: none;
+    }
+    .item.active .content .text div {
+        opacity: 1;
+
+    }
+.item.active:hover .content .text div {
+        opacity: 0.1;
+        transition: 0.8s  ;
+        background-color: transparent;
+        font-size: smaller;
+        box-shadow: none;
+    }
+    .item .shadow {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        height: 100px;
+        transition: 0.6s cubic-bezier(0.05, 0.01, 0.22, 1);
+    }
+</style>
+
+<body>
+    <div class="container">
+        <div class="item active" style="background-image: url('https://p26-sign.douyinpic.com/tos-cn-i-p14lwwcsbr/12fc70b6ae9f45698c0b25d46a8ac2cd~tplv-p14lwwcsbr-7.image?x-expires=1698001200&x-signature=GZnbHKhvGMAC17qOdLdh0V7TUso%3D&from=2064092626&se=false&sc=image&biz_tag=aweme_comment&l=20231022210416FFE394F909C0016333EF');">
+            <div class="shadow"></div>
+            <div class="content">
+                <div class="icon">
+                    <i class="fa fa-sun-o"></i>
+                </div>
+                <div class="text">
+                    <div class="tit">小时候真傻 居然盼着长大</div>
+                    <div class="sub">“画面越来越清晰，童年却越来越模糊… ”只剩下回忆的碎片，一切都不再是当初</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item" style="background-image: url('https://p3-sign.douyinpic.com/tos-cn-i-p14lwwcsbr/34af11a4bab64e40a812d43c493d808f~tplv-p14lwwcsbr-7.image?x-expires=1697997600&x-signature=4DLFKO1i5%2BuYmjDJ8N6Khvet6%2BM%3D&from=2064092626&se=false&sc=image&biz_tag=aweme_comment&l=20231022203818670C72861030A81A6D2C');">
+            <div class="shadow"></div>
+            <div class="content">
+                <div class="icon">
+                    <i class="fa fa-sun-o"></i>
+                </div>
+                <div class="text">
+                    <div class="tit">少年 接下来的路你要自己走了</div>
+                    <div class="sub">这张图很小，小到只有几 MB 。这张图很大，大到承载了我整个童年;年少时总想让时间快马加鞭，当今已不再年少，回首望却大漠孤烟</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="item" style="background-image: url('https://p9-pc-sign.douyinpic.com/tos-cn-i-0813/937b79b33df5440ab625716985e81bde~tplv-dy-aweme-images:q75.webp?biz_tag=aweme_images&from=3213915784&s=PackSourceEnum_AWEME_DETAIL&sc=image&se=false&x-expires=1700568000&x-signature=TmwHNpcxNZ%2FcSW1qPVNrvwAMygc%3D')">
+            <div class="shadow"></div>
+            <div class="content">
+                <div class="icon">
+                    <i class="fa fa-sun-o"></i>
+                </div>
+                <div class="text">
+                    <div class="tit">                    
+                        欲买桂花同载酒 
+                         终不似  少年游</div>
+                    <div class="sub">欲买桂花同载酒，终不似少年游！再也回不去了，再见了天真无邪的童年，再见了无忧无虑！再见了哪个懵懂自由的少年！</div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        
+    </div>
+</body>
+<script>
+    let items = document.querySelectorAll('.item');
+    function setActive() {
+        items.forEach(item => item.classList.remove('active'));
+        this.classList.add('active');
+    }
+    items.forEach(item => item.addEventListener('click', setActive));
+    //
+</script>
+
+</html>

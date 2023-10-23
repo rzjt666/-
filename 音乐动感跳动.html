@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音频可视化&音乐动感跳动&滚动歌词</title>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        background-color: rgba(85, 183, 239, 0.571);
+    }
+
+    .music {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    canvas {
+        width: 100%;
+        align-items: center;
+        justify-items: center;
+        margin: 50px 20px;
+    }
+
+    audio {
+        align-items: center;
+
+        margin-top: 20px;
+    }
+
+    .container {
+        
+        margin-top: 20px;
+        width: 100%;
+        height: 1000px;
+        overflow: hidden;
+        color: #000;
+    }
+
+    .container ul {
+        transition: 0.6s;
+        list-style: none;
+        position: relative;
+        top: 0px;
+        font-family: '黑体';
+        font-weight: 700;
+        font-size: larger;
+    }
+
+    .container li {
+        
+        
+        /* 水平居中 */
+        display: flex;
+        justify-content: center;
+        /* 垂直居中 */
+        color: #37de90d3;
+        text-shadow: #000 5px 3px 5px;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+        line-height: 50px;
+        transition: 0.2s;
+
+    }
+
+    .container li.active {
+        color: rgb(53, 39, 246);
+        font-size: 20px;
+        transform: scale(1.2);
+        font-weight: 900;
+        text-shadow: #00000000 5px 3px 5px;
+        font-family: '楷体';
+    }
+</style>
+
+<body>
+    <div class="music">
+        <canvas></canvas>
+        <audio src="src/风吹麦浪 - 李健.mp3" controls download="false"></audio>       
+
+    </div>
+    <div class="container">
+            <ul class="lrc-list">
+
+            </ul>
+        </div>
+</body><script>
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+    const audio = document.querySelector('audio');
+
+    function initCvs(params) {
+        const size = params.size || 500;  //画布大小
+        canvas.width = size * devicePixelRatio;  //canvas宽度
+        canvas.height = size * devicePixelRatio * 9 / 16;  //canvas高度
+        // canvas.style.width = size + 'px';  //canvas样式宽度
+        // canvas.style.height = size + 'px';  //canvas样式高度
+        ctx.scale(devicePixelRatio, devicePixelRatio);  //canvas像素比
+    }
+    initCvs({ size: window.innerWidth });  //初始化画布
+
+    let isInit = false;  //是否初始化
+    let isPlay = false;  //是否播放
+    let dataArray = [];  //数据数组
+    let analyser;  //音频分析对象
+    audio.onplay = function () {
+        if (isInit) {  //如果初始化完成
+            return;
+        }
+        // 音频上下文
+        const audioCtx = new AudioContext();
+
+        // 音频节点
+        const sourse = audioCtx.createMediaElementSource(audio);
+        // 音频分析对象
+        analyser = audioCtx.createAnalyser();
+        analyser.fftSize = 512;  //设置fft大小
+        dataArray = new Uint8Array(analyser.frequencyBinCount);  //设置数据数组大小
+        // 音频节点连接到分析对象
+        sourse.connect(analyser);
+        // 分析对象连接到音频上下文
+        analyser.connect(audioCtx.destination);
+
+        isInit = true;  //初始化完成
+        // analyser.init(() => {
+        //     isInit = true;
+        //     draw(dataArray, analyse.getMaxValue());
+        // });
+    };
+
+    function draw() {
+        //逐帧绘制
+        requestAnimationFrame(draw);
+        const { width, height } = canvas;
+
+        ctx.clearRect(0, 0, width, height);  //清空画布
+        if (!isInit) {
+            return;
+        }
+        analyser.getByteFrequencyData(dataArray);  //获取数据
+        const len = dataArray.length / 2;
+        const barWidth = (width / len);  //柱子宽度
+
+        for (let i = 0; i < len; i++) {
+            ctx.fillStyle = randomColor();  //设置填充颜色
+            const data = dataArray[i];
+            const barHeight = (data / 255) * height / 2;  //柱子高度
+            const x1 = i * barWidth + width / 2;  //柱子x坐标
+            const x2 = width / 2 - (i + 1) * barWidth;  //柱子y坐标
+            const y = height - barHeight;  //柱子y坐标
+            ctx.fillRect(x1, y, barWidth - 2, barHeight);  //绘制
+            ctx.fillRect(x2, y, barWidth - 2, barHeight);  //绘制
+        }
+
+    }
+    function randomColor() {
+        var letters = '0123456789ABCDEF';  //随机颜色
+        var color = '#';
+        for (var i = 0; i < 6; i++) {  //随机颜色
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+
+        return color;
+    }
+    draw();  //绘制
+
+
+</script>
+<script>
+    //歌词滚动
+    //     
+    var lrc = `
+    [ti:风吹麦浪]
+     [ar:李健]
+    [al:想念你]
+     [by:似水流年]
+[00:04.74]风吹麦浪
+[00:06.41]演唱 李健
+
+[00:14.89]远处蔚蓝天空下
+[00:17.71]涌动着金色的麦浪
+[00:22.84]就在那里曾是你和我
+[00:26.07]爱过的地方
+[00:28.63]当微风带着收获的味道
+[00:32.13]吹向我脸庞
+[00:35.64]想起你轻柔的话语
+[00:39.41]曾打湿我眼眶
+[00:42.17]嗯……
+[01:03.06]
+[01:06.04]
+[01:10.48]我们曾在田野里歌唱
+[01:14.26]在冬季盼望
+[01:17.65]却没能等到阳光下
+[01:21.24]这秋天的景象
+[01:24.41]就让失散的誓言飞舞吧
+[01:28.20]随西风飘荡
+[01:31.62]就像你柔软的长发
+[01:35.45]曾芬芳我梦乡
+[01:38.68]嗯……
+[02:20.23]远处蔚蓝天空下
+[02:22.43]涌动着金色的麦浪
+[02:27.43]就在那里曾是你和我
+[02:30.84]爱过的地方
+[02:34.35]当微风带着收获的味道
+[02:37.69]吹向我脸庞
+[02:41.13]想起你轻柔的话语
+[02:44.71]曾打湿我眼眶
+[02:47.66]嗯……
+
+[03:02.26]
+[03:16.19]我们曾在田野里歌唱
+[03:19.50]在冬季盼望
+[03:22.72]却没能等到阳光下
+[03:26.53]这秋天的景象
+[03:30.06]就让失散的誓言飞舞吧
+[03:35.24]随西风飘荡
+[03:38.61]就像你柔软的长发
+[03:41.15]曾芬芳我梦乡
+[03:43.85]嗯……`;
+    function parseLrc() {
+        var lines = lrc.split('\n'); // 按行分割
+        var result = [];
+        for (var i = 0; i < lines.length; i++) {
+            var line = lines[i];
+            var parts = line.split(']');
+            var timeStr = parts[0].substring(1);
+            var obj = {
+                time: parseTime(timeStr),
+                text: parts[1]
+            }
+            result.push(obj);
+        }
+        return result;
+    }
+    function parseTime(timeStr) {
+        // 把时间字符串转换成秒数
+        var parts = timeStr.split(':');
+
+        return +parts[0] * 60 + +parts[1];
+    }
+    var lrcData = parseLrc();
+    var doms = {
+        audio: document.querySelector('audio'),
+        ul: document.querySelector('.container ul'),
+        contain: document.querySelector('.container'),
+
+    }
+    function findIndex() {
+        var curTime = doms.audio.currentTime; // 获取当前播放时间
+        
+        for (var i = 0; i < lrcData.length; i++) {
+
+            if (curTime < lrcData[i].time) {
+                return i - 1;
+            }
+        }
+        return lrcData.length - 1;
+    }
+    function createLrcElements() {
+        var frag = document.createDocumentFragment();//
+        for (var i = 0; i < lrcData.length; i++) {
+            var li = document.createElement('li');
+           
+            li.textContent = lrcData[i].text;
+            frag.appendChild(li);
+        }
+        
+        doms.ul.appendChild(frag);
+    }
+    createLrcElements();
+    var containerHeight = doms.contain.clientHeight; // 获取容器高度
+    var liHeight = doms.ul.children[0].clientHeight; // 获取li高度
+    var maxOffset = doms.ul.clientHeight - containerHeight; // 计算最大偏移量
+  var index1 = 0;
+    function setOffset() {
+        var index = findIndex();
+        var offset = -liHeight * index + liHeight / 2 - containerHeight / 2;
+        offset = offset < 0 ? 0 : offset; // 防止出现负值
+        offset = offset > maxOffset ? maxOffset : offset; // 防止出现超出最大值
+        doms.ul.style.transform = `translateY(-${offset}px)`;
+        var li = doms.ul.querySelector('.active');
+        if (li) {         
+            li.classList.remove('active');
+       
+    }
+        li = doms.ul.children[index];
+        if (li) {
+            li.classList.add('active'); 
+        //     setTimeout(function () {
+        //         let li1 = li;
+        //         console.log(li1);
+        //             doms.ul.removeChild(li1);
+                
+        // },
+        // 5000); // 3秒后自动移除
+
+        }
+        
+      doms.audio.addEventListener('timeupdate',function ()
+      {
+        
+      });
+        if (index != index1) {
+            console.group();
+            console.log(index+'   '+index1);
+              let computedStyle = getComputedStyle(doms.ul);
+        let top = computedStyle.getPropertyValue('top');
+        console.log(parseFloat(top)+'px');
+        doms.ul.style.top =  -((index-2)*liHeight)+"px";
+        index1 = index;
+        console.groupEnd();
+        }
+    }
+    doms.audio.addEventListener('timeupdate', function () {
+        setOffset();
+
+      
+    });
+</script>
+
+
+
+</html>
