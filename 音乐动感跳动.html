@@ -35,10 +35,10 @@
     }
 
     .container {
-        
+
         margin-top: 20px;
         width: 100%;
-        height: 1000px;
+        height: 300px;
         overflow: hidden;
         color: #000;
     }
@@ -51,11 +51,12 @@
         font-family: '黑体';
         font-weight: 700;
         font-size: larger;
+       
     }
 
     .container li {
-        
-        
+
+
         /* 水平居中 */
         display: flex;
         justify-content: center;
@@ -83,15 +84,17 @@
 <body>
     <div class="music">
         <canvas></canvas>
-        <audio src="src/风吹麦浪 - 李健.mp3" controls download="false"></audio>       
+        <audio src="src/一人一花.mp3" controls download="false"></audio>
 
     </div>
     <div class="container">
-            <ul class="lrc-list">
+        <ul class="lrc-list">
 
-            </ul>
-        </div>
-</body><script>
+        </ul>
+    </div>
+
+</body>
+<script>
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d');
     const audio = document.querySelector('audio');
@@ -176,54 +179,49 @@
 <script>
     //歌词滚动
     //     
-    var lrc = `
-    [ti:风吹麦浪]
-     [ar:李健]
-    [al:想念你]
-     [by:似水流年]
-[00:04.74]风吹麦浪
-[00:06.41]演唱 李健
-
-[00:14.89]远处蔚蓝天空下
-[00:17.71]涌动着金色的麦浪
-[00:22.84]就在那里曾是你和我
-[00:26.07]爱过的地方
-[00:28.63]当微风带着收获的味道
-[00:32.13]吹向我脸庞
-[00:35.64]想起你轻柔的话语
-[00:39.41]曾打湿我眼眶
-[00:42.17]嗯……
-[01:03.06]
-[01:06.04]
-[01:10.48]我们曾在田野里歌唱
-[01:14.26]在冬季盼望
-[01:17.65]却没能等到阳光下
-[01:21.24]这秋天的景象
-[01:24.41]就让失散的誓言飞舞吧
-[01:28.20]随西风飘荡
-[01:31.62]就像你柔软的长发
-[01:35.45]曾芬芳我梦乡
-[01:38.68]嗯……
-[02:20.23]远处蔚蓝天空下
-[02:22.43]涌动着金色的麦浪
-[02:27.43]就在那里曾是你和我
-[02:30.84]爱过的地方
-[02:34.35]当微风带着收获的味道
-[02:37.69]吹向我脸庞
-[02:41.13]想起你轻柔的话语
-[02:44.71]曾打湿我眼眶
-[02:47.66]嗯……
-
-[03:02.26]
-[03:16.19]我们曾在田野里歌唱
-[03:19.50]在冬季盼望
-[03:22.72]却没能等到阳光下
-[03:26.53]这秋天的景象
-[03:30.06]就让失散的誓言飞舞吧
-[03:35.24]随西风飘荡
-[03:38.61]就像你柔软的长发
-[03:41.15]曾芬芳我梦乡
-[03:43.85]嗯……`;
+    var lrc = `[00:02.00]阿朵 - 一人一花
+[00:17.00]
+[00:25.00]
+[00:31.00]
+[00:33.96]A Ci Ka Pu Nie Suo lang爱上一朵花的芬芳
+[00:37.91]A Ci ka Pu Nie Geng Gang爱上一朵花的倔强
+[00:41.35]A Ci ka Pu Nie A Mu爱上一朵花的姿态
+[00:44.51]Guo La Yao Lu lang tang tang它在黑夜中发亮
+[00:47.95]A Ci Luo Lao Nie Luo Bo爱上一个人的家乡
+[00:51.83]A Ci Luo Lao Nie Cuo Chang爱上一个人的目光
+[00:54.98]A Ci Luo Lao Nie De Shang Zuo爱上一个人的伤疤
+[00:58.39]Guo Nie Die Bo Nie Lang Chang他在记忆的远方
+[01:02.67]
+[01:04.77]爱上一朵花就陪她去绽放
+[01:11.78]爱上一个人就伴着她成长
+[01:18.77]每个人都是会绽放凋零的花
+[01:25.98]请留下最美霎那
+[01:32.36]爱上一个人就陪她去流浪
+[01:39.22]爱上一朵花就伴着她成长
+[01:46.26]Ka Pu Bo Luo Peng Peng Lie Bie Pan给你我从盛开到凋零
+[01:53.50]Ni En A Nie La Zu A Man这一生的模样
+[01:59.82]
+[02:14.08]
+[02:21.11]
+[02:27.15]爱上一朵花的芬芳
+[02:30.70]爱上一朵花的倔强
+[02:34.21]爱上一朵花的姿态
+[02:37.54]它在黑夜中发亮
+[02:41.22]爱上一个人的目光
+[02:44.42]爱上一个人的家乡
+[02:47.98]爱上一个人的伤疤
+[02:51.23]他在记忆的远方
+[02:55.20]
+[02:56.26]爱上一个人就陪她去流浪
+[03:03.22]爱上一朵花就伴着她成长
+[03:10.20]Luo Lao Hei Lie Geng Ni Ka Pu La Pu Li ka每个人都是一朵花
+[03:17.48]Du Lie Mo Ga Bie Pan从地上落到天上
+[03:23.82]爱上一朵花就陪她去绽放
+[03:30.60]爱上一个人就伴着她成长
+[03:37.45]Ka Pu La Peng Bo Xi Zui Re Zhu Re Mo Die
+[03:44.86]Bo Lie Mo Tu Dang dang请记得每朵花儿一生最美的霎那
+[03:51.85]
+`;
     function parseLrc() {
         var lines = lrc.split('\n'); // 按行分割
         var result = [];
@@ -254,7 +252,7 @@
     }
     function findIndex() {
         var curTime = doms.audio.currentTime; // 获取当前播放时间
-        
+
         for (var i = 0; i < lrcData.length; i++) {
 
             if (curTime < lrcData[i].time) {
@@ -267,18 +265,18 @@
         var frag = document.createDocumentFragment();//
         for (var i = 0; i < lrcData.length; i++) {
             var li = document.createElement('li');
-           
+
             li.textContent = lrcData[i].text;
             frag.appendChild(li);
         }
-        
+
         doms.ul.appendChild(frag);
     }
     createLrcElements();
     var containerHeight = doms.contain.clientHeight; // 获取容器高度
     var liHeight = doms.ul.children[0].clientHeight; // 获取li高度
     var maxOffset = doms.ul.clientHeight - containerHeight; // 计算最大偏移量
-  var index1 = 0;
+    var index1 = 0;
     function setOffset() {
         var index = findIndex();
         var offset = -liHeight * index + liHeight / 2 - containerHeight / 2;
@@ -286,42 +284,42 @@
         offset = offset > maxOffset ? maxOffset : offset; // 防止出现超出最大值
         doms.ul.style.transform = `translateY(-${offset}px)`;
         var li = doms.ul.querySelector('.active');
-        if (li) {         
-            li.classList.remove('active');
-       
-    }
-        li = doms.ul.children[index];
         if (li) {
-            li.classList.add('active'); 
-        //     setTimeout(function () {
-        //         let li1 = li;
-        //         console.log(li1);
-        //             doms.ul.removeChild(li1);
-                
-        // },
-        // 5000); // 3秒后自动移除
+            li.classList.remove('active');
 
         }
-        
-      doms.audio.addEventListener('timeupdate',function ()
-      {
-        
-      });
+        li = doms.ul.children[index];
+        if (li) {
+            li.classList.add('active');
+            //     setTimeout(function () {
+            //         let li1 = li;
+            //         console.log(li1);
+            //             doms.ul.removeChild(li1);
+
+            // },
+            // 5000); // 3秒后自动移除
+
+        }
+
+        doms.audio.addEventListener('timeupdate', function () {
+
+        });
         if (index != index1) {
             console.group();
-            console.log(index+'   '+index1);
-              let computedStyle = getComputedStyle(doms.ul);
-        let top = computedStyle.getPropertyValue('top');
-        console.log(parseFloat(top)+'px');
-        doms.ul.style.top =  -((index-2)*liHeight)+"px";
-        index1 = index;
-        console.groupEnd();
+            console.log(index + '   ' + index1);
+            let computedStyle = getComputedStyle(doms.ul);
+            let top = computedStyle.getPropertyValue('top');
+            console.log(parseFloat(top) + 'px');
+            doms.ul.style.top = -((index - 2) * liHeight) + "px";
+            index1 = index;
+            console.groupEnd();
         }
     }
+
     doms.audio.addEventListener('timeupdate', function () {
         setOffset();
 
-      
+
     });
 </script>
 

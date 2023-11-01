@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+        /* background-color: rgb(250, 215, 215);
+         */
+       
+
+    }
+
+    body {
+        background: linear-gradient(to right, #3ce422, #2e86de, #eac42e, white);
+    }
+
+
+[transition-style="out:diamond:center"] {
+  animation: 1.5s cubic-bezier(.25, 1, .30, 1) diamond-out-center both;
+}
+    .card-container {  
+      
+        /* display: inline-block; */
+        /* background: linear-gradient(to bottom, #000, #000 1px , #ffffff 1px); */
+        width: 450px;
+        /* background-color: cadetblue; */
+        height: 300px;
+        /* z-index: 99; */
+        font-size: 250px;
+        margin: 10px;
+
+
+    }
+
+    .card-item {
+        overflow: hidden;
+
+        position: absolute;
+        width: 100%;
+        height: 50%;
+        background-color: aqua;
+        top: 0px;
+        left: 0;
+        margin-top: 100px;
+
+
+        /* display: flex; */
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        transition: 0.8s all;
+
+
+    }
+
+    .card1 {
+        position: relative;
+        background-color: rgb(61, 61, 211);
+        line-height: 310px;
+        height: 50%;
+    }
+
+    .card2 {
+        background-color: rgb(207, 31, 223);
+        position: relative;
+        line-height: 0px;
+        height: 50%;
+        top: -103px;
+        transform-origin: center top;
+        /* backface-visibility: hidden; */
+        transform: rotateX(180deg);
+        z-index: 1;
+
+
+    }
+
+    .card3 {
+        background-color: green;
+        position: relative;
+        line-height: 300px;
+        height: 50%;
+        top: -505px;
+        transform-origin: center bottom;
+        backface-visibility: hidden;
+        transform: rotateX(0deg);
+
+        z-index: 2;
+    }
+
+    .card4 {
+        background-color: rgb(227, 227, 52);
+        position: relative;
+        line-height: 0px;
+        height: 50%;
+        top: -603px;
+        transform-origin: center top;
+        /* backface-visibility: hidden; transform: rotateX(90deg); */
+
+        z-index: 0;
+    }
+
+    .card-container.hover .card2 {
+        transform: rotateX(360deg);
+    }
+
+    .card-container.hover .card3 {
+        transform: rotateX(180deg);
+    }
+
+    /* .card-container:hover .card4{
+        transform: rotateX(0);
+    }
+    .card-item{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+
+
+
+    } */
+    .date {
+        display: flex;
+        width: 80%;
+        justify-content: space-between;
+        margin: 0 auto;
+        height: 120px;
+
+    }
+
+    .text {
+        position: relative;
+        margin: 120px 10px;
+        font-size: 60px;
+        font-weight: 1000;
+        text-align: center;
+
+    }
+</style>
+<style>
+    .heart {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        clip-path: path("M15,45A30,30,0,0,1,75,45,A30,30,0,0,1,135,45,Q135,90,75,130 Q15,90,15,45 Z");
+        z-index: 9;
+        float: left;
+        position: absolute;
+        transition: 0.6s all;
+
+    }
+
+    .heart.dis {
+        transform: rotate(36deg);
+        opacity: 0;
+
+    }
+</style>
+
+<body>
+    <div class="heart-container">
+   
+    </div>
+    <div class="text">距离2024年春节倒计时</div>
+    <div class="date">
+        <day>
+            <div class="card-container">
+                <div class="card1 card-item"></div>
+                <hr>
+                <hr>
+                <div class="card2 card-item"></div>
+                <div class="card3 card-item"></div>
+                <div class="card4 card-item"></div>
+
+            </div>
+
+        </day>
+        <div class="text">天</div>
+        <hour>
+            <div class="card-container">
+                <div class="card1 card-item"></div>
+                <hr>
+                <hr>
+                <div class="card2 card-item"></div>
+                <div class="card3 card-item"></div>
+                <div class="card4 card-item"></div>
+            </div>
+        </hour>
+        <div class="text">时</div>
+        <minute>
+            <div class="card-container">
+                <div class="card1 card-item"></div>
+                <hr>
+                <hr>
+                <div class="card2 card-item"></div>
+                <div class="card3 card-item"></div>
+                <div class="card4 card-item"></div>
+            </div>
+        </minute>
+        <div class="text">分</div>
+        <second>
+            <div class="card-container">
+                <div class="card1 card-item"></div>
+                <hr>
+                <hr>
+                <div class="card2 card-item"></div>
+                <div class="card3 card-item"></div>
+                <div class="card4 card-item"></div>
+            </div>
+        </second>
+    </div>
+</body>
+<script>
+    window.onload = function () {
+        //点击出心
+        function clickXin() {
+            window.onclick = () => {
+                var e = event || window.event;
+                createBox(e.clientX, e.clientY, 'div', 30, 20)
+            }
+            // 生成图片
+            function createBox(x, y, el, distance, time) {
+                let timer = null;
+                // 创建节点
+                let Odiv = document.createElement(el);
+                Odiv.id = "xin";
+                OdivStyle(Odiv)
+                let opacityI = 1 * distance
+                let OdivW = (Odiv.style.width).slice(0, (Odiv.style.width).length - 2);
+                let OdivH = (Odiv.style.height).slice(0, (Odiv.style.height).length - 2);
+                let OdivL = x - (OdivW / 2);
+                let OdivT = y - (OdivH / 2);
+                Odiv.style.left = OdivL + 'px';
+                Odiv.style.top = OdivT + 'px';
+                document.body.appendChild(Odiv);
+                let OdivNT = OdivT - distance
+                timer = setInterval(() => {
+                    Odiv.style.top = `${OdivT--}px`
+                    Odiv.style.opacity = `${((opacityI--)/distance)+0.2}`
+                    if (OdivT < OdivNT) {
+                        clearInterval(timer)
+                        document.body.removeChild(Odiv)
+                    }
+                }, time)
+            }
+            // 样式
+            function OdivStyle(Odiv) {
+                let rgbaColor = []
+                for (let i = 0; i < 3; i++) {
+                    rgbaColor.push(random(0, 255))
+                }
+                Odiv.style.cssText = `
+        width:10px;
+        height:10px;
+        background:rgb(${rgbaColor[0]},${rgbaColor[1]},${rgbaColor[2]});
+        position: absolute;
+        transform: rotate(45deg);`;
+                document.styleSheets[0].addRule('#xin::after', `
+        content: '';
+        width: inherit;
+        height: inherit;
+        position: absolute;
+        top: 0;
+        left: -50%;
+        border-radius: 50%;
+        background: inherit;`);
+                document.styleSheets[0].addRule('#xin::before', `
+        content: '';
+        width: inherit;
+        height: inherit;
+        position: absolute;
+        top: -50%;
+        left: 0;
+        border-radius: 50%;
+        background: inherit;`);
+            }
+            // 随机生成指定范围数字
+            function random(m, n) {
+                return Math.floor(Math.random() * (n - m)) + m
+            }
+
+        }
+        clickXin()
+
+    }
+</script>
+<script>
+    
+    var heartContainer = document.querySelector('.heart-container');
+    document.addEventListener('click', function (e) {
+        let x = e.offsetX;
+        let y = e.offsetY;
+        let heart = document.createElement('div');
+        heart.classList.add('heart')
+        heart.style.left = x + 'px';
+        heart.style.top = y + 'px';
+        setTimeout(function (params) {
+            // heart.style.cssText('transform','rotate(30deg)');
+            heart.classList.add('dis');
+            setTimeout(function(){heart.remove()}, 1000);
+
+        }, 2000)
+        heartContainer.appendChild(heart);
+
+
+    })
+</script>
+<script>
+
+
+    //获取
+    var dayTag = document.querySelectorAll('day')[0];
+    var hourTag = document.querySelectorAll('hour')[0];
+    var minuteTag = document.querySelectorAll('minute')[0];
+    var secondTag = document.querySelectorAll('second')[0];
+    //设置时间
+    function dateSet(d, h, m, s) {
+
+
+        dayTag.childNodes[1].childNodes[1].innerHTML = d;
+        dayTag.childNodes[1].childNodes[7].innerHTML = d;
+        if (dayTag.childNodes[1].childNodes[9].innerHTML != dayTag.childNodes[1].childNodes[7].innerHTML) {
+            dayTag.childNodes[1].classList.toggle('hover');
+        }
+        dayTag.childNodes[1].childNodes[9].innerHTML = d;
+        dayTag.childNodes[1].childNodes[11].innerHTML = d;
+
+        hourTag.childNodes[1].childNodes[1].innerHTML = h;
+        hourTag.childNodes[1].childNodes[7].innerHTML = h;
+        if (hourTag.childNodes[1].childNodes[9].innerHTML != hourTag.childNodes[1].childNodes[7].innerHTML) {
+            hourTag.childNodes[1].classList.toggle('hover');
+        }
+        hourTag.childNodes[1].childNodes[9].innerHTML = h;
+        hourTag.childNodes[1].childNodes[11].innerHTML = h;
+
+
+        minuteTag.childNodes[1].childNodes[1].innerHTML = m;
+        minuteTag.childNodes[1].childNodes[7].innerHTML = m;
+        if (minuteTag.childNodes[1].childNodes[9].innerHTML != minuteTag.childNodes[1].childNodes[7].innerHTML) {
+            minuteTag.childNodes[1].classList.toggle('hover');
+            // minuteTag.childNodes[1].classList.remove('hover');
+        }
+        minuteTag.childNodes[1].childNodes[9].innerHTML = m;
+        minuteTag.childNodes[1].childNodes[11].innerHTML = m;
+
+
+        secondTag.childNodes[1].childNodes[1].innerHTML = s;
+        secondTag.childNodes[1].childNodes[7].innerHTML = s;
+        if (secondTag.childNodes[1].childNodes[9].innerHTML != secondTag.childNodes[1].childNodes[7].innerHTML) {
+            secondTag.childNodes[1].classList.toggle('hover');
+        }
+        secondTag.childNodes[1].childNodes[9].innerHTML = s;
+        secondTag.childNodes[1].childNodes[11].innerHTML = s;
+
+
+
+    }
+    //
+    setInterval(
+        function () {
+            var targetTime = new Date('2024-02-10T00:00'); // 目标时间
+            var nowTime = new Date(); // 当前时间
+            var time = targetTime.getTime() - nowTime.getTime(); // 时间差
+
+            var day = Math.floor(time / (1000 * 60 * 60 * 24)),
+                hour = Math.floor(time / (1000 * 60 * 60)) - 24 * day,
+                minute = Math.floor(time / (1000 * 60)) - (hour) * 60 - day * 60 * 24,
+                second = Math.floor(time / 1000) - (hour) * 3600 - (minute) * 60 - day * 24 * 60 * 60;
+            dateSet(day, hour, minute, second);
+            // console.group('时间');
+            // console.log('距离2024年还有：' + time + '毫秒');
+            // console.log('天：' + day);
+            // console.log('小时：' + hour);
+            // console.log('分钟：' + minute);
+            // console.log('秒：' + second);
+            // console.groupEnd();
+        }, 1000);
+
+</script>
+
+</html>

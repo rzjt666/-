@@ -1,39 +1,185 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Static Template</title>
-  </head>
-  <body>
-    <input type="file" onchange="previewHandle(this)" />
-    <img id="preview-img" />
+<html lang="zh">
 
-    <script>
-      function previewHandle(fileDOM) {
-        var file = fileDOM.files[0], // 获取文件
-          imageType = /^image\//,
-          reader = ""; // 文件是否为图片
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Static Template</title>
+</head>
+<style>
+  .list img {
+    width: 200px;
+    height: 200px;
+    border: rgb(81, 187, 249) 5px solid;
+    box-shadow: blanchedalmond 0px 5px 10px;
+    object-fit: contain;
+  }
 
-        if (!imageType.test(file.type)) {
-          alert("请选择图片！");
-          return;
-        } // 判断是否支持 FileReader
-        if (window.FileReader) {
-          reader = new FileReader();
-        } // IE9及以下不支持 FileReader
-        else {
-          alert("您的浏览器不支持图片预览功能，如需该功能请升级您的浏览器！");
-          return;
-        } // 读取完成
-        reader.onload = function(event) {
-          // 获取图片DOM
-          var img = document.getElementById("preview-img"); // 图片路径设置为读取的图片
-          img.src = event.target.result;
-        };
-        reader.readAsDataURL(file);
+  .modal {
+    background-color: rgba(159, 153, 153, 0.47);
+  }
+
+  .preview-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+
+    box-shadow: blanchedalmond 0px 5px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  .preview-container img {
+    width: 90%;
+    object-fit: contain;
+    cursor: pointer;
+    
+  }
+</style>
+
+<body>
+  <input type="file" onchange="previewHandle(this)" />
+
+  <div class="list">
+    <img id="preview-img" src="img/ikun.jpg" />
+  </div>
+  <!-- <div class="preview-container"><img id="preview-img" src="img/ikun.jpg" /></div> -->
+  <script>
+    function previewHandle(fileDOM) {
+      var file = fileDOM.files[0], // 获取文件
+        imageType = /^image\//,
+        reader = ""; // 文件是否为图片
+
+      if (!imageType.test(file.type)) {
+        alert("请选择图片！");
+        return;
+      } // 判断是否支持 FileReader
+      if (window.FileReader) {
+        reader = new FileReader();
+      } // IE9及以下不支持 FileReader
+      else {
+        alert("您的浏览器不支持图片预览功能，如需该功能请升级您的浏览器！");
+        return;
+      } // 读取完成
+      reader.onload = function (event) {
+        // 获取图片DOM
+        var img = document.getElementById("preview-img"); // 图片路径设置为读取的图片
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+<script>
+  for (let img of document.querySelectorAll('.list img')) {
+    img.addEventListener('click', function (e) {
+      let container = document.createElement('div');
+      container.classList.add('preview-container');
+
+      container.addEventListener('click', function (e) {
+        container.remove();
+      })
+      let innerImg = document.createElement('img');
+      innerImg.src = img.src;
+
+      container.onwheel = function (e) {
+        let scale = 1;
+        if (e.deltaY > 0) {
+          scale = 0.9;
+        } else {
+          scale = 1.1;
+        }
+        
+        innerImg.width = innerImg.width * scale;
+        innerImg.height = innerImg.height * scale;
+
       }
-    </script>
-  </body>
+      container.appendChild(innerImg);
+      document.body.appendChild(container);
+    })
+
+  }
+</script>
+<!-- <script>
+  let imgC = null;
+  let originalEl = null;
+  let flag = true;
+  document.querySelector('.list').onclick = function (e) {
+    originalEl = e.target;
+    imgC = originalEl.cloneNode(true);
+    originalEl.style.opacity = 0;
+    openModal();
+  };
+  //打开模态窗口
+  function openModal(params) {
+    const modalEl = document.createElement('div');
+    modalEl.classList.add('preview-container'); // preview-container
+    document.body.appendChild(modalEl); // 添加到body
+    const { top, left } = originalEl.getBoundingClientRect();
+    changeStyle(imgC, [`left:${left}px`, `top:${top}px`]);
+    modalEl.appendChild(imgC); // 添加到模态窗口
+    const modalClick = function (e) {
+      if (flag) {
+        const { top, left } = originalEl.getBoundingClientRect();
+        changeStyle(imgC, [`transition:all .3s`, `width:${originalEl.offsetWidth}px`, `left:${left}px`, `top:${top}px`]);
+        setTimeout(() => {
+          document.body.removeChild(this);
+          originalEl.style.opacity = 1;
+          modalEl.removeEventListener('click', modalClick);
+        }, 300)
+      }
+    }
+    modalEl.addEventListener('click', modalClick);
+    const center = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+    const scaleNum = scalcScale();
+    const elTargetWH = { width: originalEl.offsetWidth * scaleNum, height: originalEl.offsetHeight * scaleNum };
+    const imgRect = imgC.getBoundingClientRect();
+    const xTarget = center.x - elTargetWH.width / 2;
+    const yTarget = center.y - elTargetWH.height / 2;
+    flag = false;
+    changeStyle(imgC, [`transition:all .3s`, `width:${elTargetWH.width}px`, `left:${xTarget}px`, `top:${yTarget}px`]);
+    setTimeout(() => {
+      flag = true;
+    }, 300);
+    let scale = 1;
+    modalEl.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      const orgin = `${e.offsetX}px ${e.offsetY}px`;
+      if (e.deltaY < 0) {
+        scale += 0.1;
+        if (scale > 4) {
+          scale = 4;
+        } else scale -= 0.1
+        if (scale < 0.1) {
+          scale = 0.1;
+        }
+      }
+      changeStyle(imgC, [`transition:all .3s `, `transform-orgin:${orgin}`, `transform:scale(${scale})`]);
+    })
+
+  }
+  function changeStyle(el, styles) {
+    const cssTextArr = el.style.cssText.split(';');
+    cssTextArr.pop(); // 删除最后一个
+    el.style.cssText = cssTextArr.concat(styles).join(';') + ';';
+  }
+  function scalcScale(params) {
+    const imgW = originalEl.offsetWidth;
+    const imgH = originalEl.offsetHeight;
+    const winW = window.innerWidth;
+    const winH = window.innerHeight;
+    let scale = (winW / 2) / imgW;
+    if (imgH * scalcScale >= winH) {
+      scale = (winH / 2) / imgH;
+    }
+    return scale;
+  }
+</script> -->
+
 </html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .inputBox {
+        position: relative;
+        width: 300px;
+    }
+
+    .inputBox input {
+        width: 100%;
+        color: #ff9100;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 10px;
+        outline: none;
+        font-size: 1em;
+        transition: all 0.3s;
+        
+    }
+
+    .inputBox span {
+        /* font-family: '楷体'; */
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 10px;
+        font-size: 1em;
+        pointer-events: none;
+        /* 禁止点击 */
+        color: #ccc;
+        transition: 0.5s all;
+    }
+
+    .inputBox input:focus,
+    .inputBox input:valid {
+        /* border:2px solid #5257f3; */
+        outline:2px solid #5257f3;;
+    }
+
+    .inputBox input:focus~span,
+    .inputBox input:valid~span {
+        font-family: '';
+        color: #80d3cc;
+        transform: translateX(10px) translateY(-12px);
+        font-size: 1.2em;
+        padding: 0 10px;
+        background-color: #fff;
+    }
+</style>
+
+<body>
+    <div class="inputBox">
+        <input type="text" required>
+        <span>用户名</span>
+    </div> 
+    <br>
+    <div class="inputBox">
+        <input type="text" required>
+        <span>密码</span>
+    </div>
+</body>
+<script>
+    var input = document.querySelector("input");
+    input.className = "inputBox";
+</script>
+</html>
